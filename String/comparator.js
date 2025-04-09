@@ -8,4 +8,4 @@ console.log(arr.sort((a, b) =>{
     // console.log("Log value of b: ", b)
     console.log(a - b)
     return a - b
-}))
+})) 

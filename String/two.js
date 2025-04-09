@@ -99,10 +99,11 @@ class Solution {
                 maxFre = value
             }
             if(value < minFre){
-                minFre = value
+                minFre = value 
             }
         })
         return maxFre + minFre
+        
     }
 }
 
