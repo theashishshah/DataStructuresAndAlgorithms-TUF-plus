@@ -14,25 +14,62 @@ class DoublyLinkedList {
 
     // Insertion at the first of DLL
     addAtFirst(data) {
-        if (this.size === 0) {
-            const newNode = new Node(data);
+        const newNode = new Node(data);
+        if (this.head !== null) {
+            this.head.prev = newNode;
+            newNode.next = this.head;
             this.head = newNode;
-            this.size++;
+        } else {
+            this.head = newNode;
         }
-        const newNode = new Node(data, null, this.head);
-        this.head = newNode;
         this.size++;
     }
 
     // Insertion at the last of DLL
     addAtLast(data) {
-        if (this.size === 0) {
-            const newNode = new Node(data);
+        const newNode = new Node(data);
+        if (this.head !== null) {
+            let currentNode = this.head;
+            while (currentNode.next !== null) {
+                currentNode = currentNode.next;
+            }
+            newNode.prev = currentNode;
+            currentNode.next = newNode;
+            currentNode = null;
+        } else {
             this.head = newNode;
+        }
+        this.size++;
+    }
+    // Insertion at the Kth position
+    addAtKth(data, position) {
+        if (position <= 0 || position > this.size + 1) {
+            throw new Error('Index out of bound Error, Try again.');
+        } else if (position === 1) {
+            const newNode = new Node(data);
+            if (this.head === null) {
+                this.head = newNode;
+            } else {
+                newNode.next = this.head;
+                this.head.prev = newNode;
+                this.head = newNode;
+            }
+        } else {
+            const newNode = new Node(data);
+            if (this.head !== null) {
+                let currentNode = this.head;
+                for (let i = 1; i < position - 1; i++) {
+                    currentNode = currentNode.next;
+                }
+                newNode.next = currentNode.next
+                newNode.prev = currentNode
+                currentNode.next = newNode
+            } else {
+                this.head = newNode;
+            }
             this.size++;
         }
     }
-    // Insertion at the Kth position
     // Insertion before value X
     // Insert after value X
     display() {
@@ -40,10 +77,15 @@ class DoublyLinkedList {
             throw new Error('Linked List is empty.');
         }
         let currentNode = this.head;
-        while (currentNode.next !== null) {
+        while (currentNode !== null) {
             process.stdout.write(String(currentNode.data) + '\t');
             currentNode = currentNode.next;
         }
+        // currentNode = this.head;
+        // while (currentNode !== null) {
+        //     console.log(currentNode);
+        //     currentNode = currentNode.next;
+        // }
         console.log();
     }
 }
@@ -51,6 +93,8 @@ class DoublyLinkedList {
 const dList = new DoublyLinkedList();
 dList.addAtFirst(43);
 dList.addAtFirst(31);
-dList.addAtFirst(12);
-dList.addAtFirst(98);
+dList.addAtLast(21);
+dList.addAtLast(89);
+dList.addAtKth(90, 4)
 dList.display();
+// console.log(dList)
