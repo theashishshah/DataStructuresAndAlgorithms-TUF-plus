@@ -67,8 +67,8 @@ class DoublyLinkedList {
             } else {
                 this.head = newNode;
             }
-            this.size++;
         }
+        this.size++;
     }
     // Insertion before value X
     // Insert after value X
@@ -91,10 +91,11 @@ class DoublyLinkedList {
 }
 
 const dList = new DoublyLinkedList();
-dList.addAtFirst(43);
-dList.addAtFirst(31);
-dList.addAtLast(21);
-dList.addAtLast(89);
-dList.addAtKth(90, 4)
+// dList.addAtFirst(43);
+// dList.addAtFirst(31);
+// dList.addAtLast(21);
+// dList.addAtLast(89);
+dList.addAtKth(90, 1)
+console.log(dList.size)
 dList.display();
 // console.log(dList)
