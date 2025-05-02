@@ -12,7 +12,7 @@ class DoublyLinkedList {
         this.size = 0;
     }
 
-    // Insertion at the first of DLL
+    // Insertion at the first of DLL ✅
     addAtFirst(data) {
         const newNode = new Node(data);
         if (this.head !== null) {
@@ -25,7 +25,7 @@ class DoublyLinkedList {
         this.size++;
     }
 
-    // Insertion at the last of DLL
+    // Insertion at the last of DLL ✅
     addAtLast(data) {
         const newNode = new Node(data);
         if (this.head !== null) {
@@ -41,7 +41,7 @@ class DoublyLinkedList {
         }
         this.size++;
     }
-    // Insertion at the Kth position
+    // Insertion at the Kth position ✅
     addAtKth(data, position) {
         if (position <= 0 || position > this.size + 1) {
             throw new Error('Index out of bound Error, Try again.');
@@ -70,7 +70,13 @@ class DoublyLinkedList {
         }
         this.size++;
     }
-    // Insertion before value X
+    // Insertion before value X 
+    addBeforeX(data, value){
+        if(this.size <= 0){
+            throw new Error("Empty Linked List. Add element first.")
+        }
+        
+    }
     // Insert after value X
     display() {
         if (this.size === 0) {
@@ -96,6 +102,7 @@ const dList = new DoublyLinkedList();
 // dList.addAtLast(21);
 // dList.addAtLast(89);
 dList.addAtKth(90, 1)
+dList.addAtKth(320, 1)
 console.log(dList.size)
 dList.display();
 // console.log(dList)
