@@ -30,3 +30,19 @@ return maxSum
 | **Two-pointer Sliding** | - Count all subarrays with sum < target<br>- Find pairs with difference ≤ target<br>- Maximize elements in window under constraint (e.g., 2 types of fruits) |
 
 > These categories help in classifying over 20+ classic and interview-grade sliding window problems.
+
+
+
+# 2. Longest subarray/string where <condition> 
+    for this type of problem go with three flows
+        1. brute force
+        2. better 
+        3. optimal solution
+e.i. longest subarray with sum<= k
+```js
+const arr = [2, 35, 4, 23, 5], k = 14
+1. generate all sub-array 
+    for(let i = 0; i < n; i++){
+        for(j = i; j < n; j++)
+    }
+```
