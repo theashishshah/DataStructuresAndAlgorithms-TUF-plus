@@ -1,7 +1,10 @@
 # On this topic there could be the four types of problem that can be solved/made
-# 1. Constant window: 
+
+# 1. Constant window:
+
 in an array or LL, you want some constant consicutive in your output.
-this type of problem can be solve like this: 
+this type of problem can be solve like this:
+
 ```javascript
 // Initialization
 low = 0
@@ -20,29 +23,138 @@ while (high < n - 1) {
 
 return maxSum
 ```
+
 ## 🧠 Sliding Window Problem Categories
 
-| Category              | Common Variants                                                           |
-|-----------------------|---------------------------------------------------------------------------|
-| **Fixed-size Window** | - Maximum/minimum sum of subarray<br>- Maximum element in each window<br>- Count subarrays with a specific condition |
-| **Variable-size Window** | - Longest/shortest subarray with sum ≤ or ≥ target<br>- Longest substring without repeating characters<br>- Subarray with at most `k` distinct elements |
-| **Frequency/Character** | - Find all anagrams in a string<br>- Minimum window substring<br>- Permutation inclusion in string<br>- Longest substring after at most `k` replacements |
-| **Two-pointer Sliding** | - Count all subarrays with sum < target<br>- Find pairs with difference ≤ target<br>- Maximize elements in window under constraint (e.g., 2 types of fruits) |
+| Category                 | Common Variants                                                                                                                                              |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Fixed-size Window**    | - Maximum/minimum sum of subarray<br>- Maximum element in each window<br>- Count subarrays with a specific condition                                         |
+| **Variable-size Window** | - Longest/shortest subarray with sum ≤ or ≥ target<br>- Longest substring without repeating characters<br>- Subarray with at most `k` distinct elements      |
+| **Frequency/Character**  | - Find all anagrams in a string<br>- Minimum window substring<br>- Permutation inclusion in string<br>- Longest substring after at most `k` replacements     |
+| **Two-pointer Sliding**  | - Count all subarrays with sum < target<br>- Find pairs with difference ≤ target<br>- Maximize elements in window under constraint (e.g., 2 types of fruits) |
 
 > These categories help in classifying over 20+ classic and interview-grade sliding window problems.
 
+# 2. Longest subarray/string where <condition> [variable size window]
 
-
-# 2. Longest subarray/string where <condition> 
     for this type of problem go with three flows
         1. brute force
-        2. better 
+        2. better
         3. optimal solution
-e.i. longest subarray with sum<= k
+
+### i.e. longest subarray with sum<= k and have to return length, array, sum etc
+
+### METHOD 1: generate all sub-array (brute force) TC: O(N^2) SC: O(1)
+
 ```js
-const arr = [2, 35, 4, 23, 5], k = 14
-1. generate all sub-array 
-    for(let i = 0; i < n; i++){
-        for(j = i; j < n; j++)
+const arr = [2, 35, 4, 23, 5];
+const k = 14;
+const n = arr.length;
+let maxLength = 0;
+
+for (let i = 0; i < n; i++) {
+    let sum = 0;
+
+    for (let j = i; j < n; j++) {
+        sum += arr[j];
+
+        if (sum <= k) {
+            maxLength = Math.max(maxLength, j - i + 1);
+        } else {
+            // Basic optimization: break as soon as sum exceeds k
+            break;
+        }
     }
+}
+
+console.log(maxLength); // Output: 1
+```
+
+### METHOD 2(better): 🚀 Optimized Approach Using Two-Pointer / Sliding Window
+
+### 🔍 Problem with Naive Approach
+
+In the naive solution, we use **nested loops** to explore all possible subarrays.  
+This leads to a **time complexity of O(N²)**, which is inefficient for large arrays.
+
+We aim to optimize this by avoiding the nested loop — and for that, we can use the **two-pointer technique**, also known as the **sliding window approach**.
+
+---
+
+### ✅ Optimized Strategy (Two-Pointer Technique)
+
+We use two pointers:
+
+-   `l` → represents the **left** boundary of the window
+-   `r` → represents the **right** boundary of the window
+
+At any moment, two actions are possible:
+
+1. **Expand the window** → Move `r` to the right to include more elements.
+2. **Shrink the window** → Move `l` to the right if the sum exceeds the allowed limit.
+
+---
+
+### 📌 Example Problem
+
+**Find the length of the longest subarray with sum ≤ `k`.**
+
+arr = [2, 5, 1, 7, 10] sum <= 14 longest subarray
+
+```js
+function longestSubarrayWithSumLEK(arr, k) { //TC: O(N + N), SC: O(1)
+  let left = 0, right = 0;
+  let sum = 0;
+  let maxLength = 0;
+  const n = arr.length;
+
+  while (right < n) {
+    sum += arr[right];
+
+    // Shrink the window if the sum exceeds k
+    while (sum > k && left <= right) {
+      sum -= arr[left];
+      left++;
+    }
+
+    // Now sum <= k
+    maxLength = Math.max(maxLength, right - left + 1);
+    right++;
+  }
+  return maxLength;
+}
+-> till the condition is true: just expand
+-> till the condition is false: just shrink {
+
+}
+```
+
+### METHOD 3(optimized): 
+somewhere the inner loop was taking the extra N time, if we can minimize it then our problem is solved
+so we'll use the below method
+```js
+function longestSubarrayWithSumLEK(arr, k) {
+  let left = 0, right = 0;
+  let sum = 0;
+  let maxLength = 0;
+  const n = arr.length;
+
+  while (right < n && left <= right) {
+    sum += arr[right];
+
+    // Shrink window while sum exceeds k
+   if (sum > k) {
+      sum -= arr[left++];
+    }
+
+    // Update maxLength for current valid window
+    maxLength = Math.max(maxLength, right - left + 1);
+
+    // Expand window
+    right++;
+  }
+
+  return maxLength;
+}
+
 ```
