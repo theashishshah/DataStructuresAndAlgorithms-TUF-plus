@@ -129,32 +129,119 @@ function longestSubarrayWithSumLEK(arr, k) { //TC: O(N + N), SC: O(1)
 }
 ```
 
-### METHOD 3(optimized): 
+### METHOD 3(optimized):
+
 somewhere the inner loop was taking the extra N time, if we can minimize it then our problem is solved
 so we'll use the below method
+
 ```js
 function longestSubarrayWithSumLEK(arr, k) {
-  let left = 0, right = 0;
-  let sum = 0;
-  let maxLength = 0;
-  const n = arr.length;
+    let left = 0,
+        right = 0;
+    let sum = 0;
+    let maxLength = 0;
+    const n = arr.length;
 
-  while (right < n && left <= right) {
-    sum += arr[right];
+    while (right < n && left <= right) {
+        sum += arr[right];
 
-    // Shrink window while sum exceeds k
-   if (sum > k) {
-      sum -= arr[left++];
+        // Shrink window while sum exceeds k
+        if (sum > k) {
+            sum -= arr[left++];
+        }
+
+        // Update maxLength for current valid window
+        maxLength = Math.max(maxLength, right - left + 1);
+
+        // Expand window
+        right++;
     }
 
-    // Update maxLength for current valid window
-    maxLength = Math.max(maxLength, right - left + 1);
-
-    // Expand window
-    right++;
-  }
-
-  return maxLength;
+    return maxLength;
 }
+```
 
+# 3. Number of subarray with condition[sum = k]
+
+### 🔢 Number of Subarrays with Sum = K
+
+This problem is best solved using the **Prefix Sum + HashMap** pattern.
+
+#### Why not Sliding Window?
+
+Sliding window only works when:
+
+-   All elements are **positive**, or
+-   We want the **longest/shortest** subarray.
+
+But here, we want to count **all valid subarrays** — so we need to track prefix sums.
+
+#### Pattern:
+
+-   Use a `Map` to store frequencies of prefix sums.
+-   At each index, compute `currentSum`.
+-   If `currentSum - k` exists in the map, it contributes to the count.
+
+#### Time Complexity: O(N)
+
+```js
+function countSubarraysWithSumK(arr, k) {
+    let prefixSumCount = new Map();
+    prefixSumCount.set(0, 1); // base case: prefix sum of 0 occurs once
+
+    let sum = 0;
+    let count = 0;
+
+    for (let num of arr) {
+        sum += num;
+
+        // Check if there's a prefix sum that leads to sum = k
+        if (prefixSumCount.has(sum - k)) {
+            count += prefixSumCount.get(sum - k);
+        }
+
+        // Update the prefix sum map
+        prefixSumCount.set(sum, (prefixSumCount.get(sum) || 0) + 1);
+    }
+
+    return count;
+}
+```
+
+# 4. Shortest/minimum windows with condition
+
+### 🪟 Shortest Subarray with Sum ≥ K
+
+This is a classic **shrinking sliding window** problem.
+
+#### Pattern:
+
+-   Expand the window by moving `right` and adding to sum.
+-   Shrink the window from the `left` **as long as sum ≥ k**.
+-   Track the minimum length during valid windows.
+
+#### Key Condition:
+
+All elements must be **positive** for this pattern to work.
+
+#### Time Complexity: O(N)
+
+```js
+function minSubarrayLengthSumAtLeastK(arr, k) {
+    let left = 0;
+    let sum = 0;
+    let minLength = Infinity;
+
+    for (let right = 0; right < arr.length; right++) {
+        sum += arr[right];
+
+        // Try shrinking the window while sum ≥ k
+        while (sum >= k) {
+            minLength = Math.min(minLength, right - left + 1);
+            sum -= arr[left++];
+        }
+    }
+
+    return minLength === Infinity ? 0 : minLength;
+}
 ```
