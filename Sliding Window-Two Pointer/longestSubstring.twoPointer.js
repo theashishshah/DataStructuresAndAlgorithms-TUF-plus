@@ -13,3 +13,27 @@ function longestNonRepeatingSubstring(string) {
         return maxLen
     }
 console.log(longestNonRepeatingSubstring("bxnsjfoaycmnwaluznqpwl"))
+
+
+
+function longestNonRepeatingSubstring(str) {
+        if(!str || str.length === 0) return 0
+
+        // if str has all identical or all different characters
+        let charSet = new Set(str)
+        if(charSet.size === 1) return 1
+        if(charSet.size === str.length) return charSet.size
+        charSet.clear()
+
+        let start = 0;
+        let maxLength = 0
+        
+        for(let end = 0; end <str.length; end++){
+            while(charSet.has(str[end])){
+                charSet.delete(str[start++])
+            }
+            charSet.add(str[end])
+            maxLength = Math.max(maxLength, end - start + 1)
+        }
+        return maxLength
+    }
