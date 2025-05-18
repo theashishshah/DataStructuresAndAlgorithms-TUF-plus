@@ -65,6 +65,20 @@ class Node {
         this.postOrder(root.right, arr)
         arr.push(root.data)
     }
+    postOrderUsingStack(root){
+        // postorder using stack
+       if(!root) return []
+        const stack =  []
+        const result = []
+        stack.push(root)
+        while(stack.length > 0){
+            let currentNode = stack.pop()
+            result.push(currentNode.data)
+            if(currentNode.left) stack.push(currentNode.left)
+            if(currentNode.right) stack.push(currentNode.right)
+        }
+        return result.reverse()
+    }
 }
 
 const root = new Node(1)
