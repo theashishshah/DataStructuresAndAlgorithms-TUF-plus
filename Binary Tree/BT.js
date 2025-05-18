@@ -38,6 +38,26 @@ class Node {
         this.preOrder(root.left, arr)
         this.preOrder(root.right, arr)
     }
+
+    preOrderUsingStack(root){
+         // using iterative method
+        if(!root) return []
+        const stack =  []
+        const result = []
+        let currentNode = root
+        while(true){
+            if(currentNode){
+                stack.push(currentNode)
+                result.push(currentNode.data)
+                currentNode = currentNode.left
+            }else{
+                if(!stack.length) break
+                currentNode = stack.pop()
+                currentNode = currentNode.right
+            }
+        }
+        return result
+    }
 }
 
 const root = new Node(1)
