@@ -17,7 +17,7 @@ function kDistinctChar(inputString, k) {
 }
 
 
-kDistinctChar(inputString, k) {
+function kDistinctChar(inputString, k) {
     if (!inputString) return 0;
     const charSet = new Set(inputString);
     if (charSet.size === 1) return inputString.length;
@@ -39,4 +39,3 @@ kDistinctChar(inputString, k) {
     }
     return maxLength;
   }
-  
