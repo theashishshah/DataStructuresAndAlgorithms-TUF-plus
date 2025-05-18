@@ -27,7 +27,7 @@ class BT {
     // Helper function to insert a node recursively
     _insertRecursive(node, newNode) {
         if (newNode.val < node.val) {
-            if (node.left === null) {
+            if (node.left === null) { 
                 node.left = newNode;
             } else {
                 this._insertRecursive(node.left, newNode);
