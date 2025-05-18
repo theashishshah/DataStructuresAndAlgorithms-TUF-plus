@@ -6,38 +6,9 @@ class Node {
     }
 }
 
-class BT {
-    constructor(root = null) {
-        this.root = root;
-        this.size = root ? 1 : 0;  // If root exists, size is 1
-    }
+const root = new Node(1)
+root.left = new Node(2)
+root.right = new Node(3)
 
-    // Method to insert a node (basic example)
-    insert(val) {
-        const newNode = new Node(val);
-        if (this.root === null) {
-            this.root = newNode;
-            this.size = 1;  // Size is 1 after insertion
-        } else {
-            this._insertRecursive(this.root, newNode);
-            this.size++;  // Increase size whenever a new node is inserted
-        }
-    }
-
-    // Helper function to insert a node recursively
-    _insertRecursive(node, newNode) {
-        if (newNode.val < node.val) {
-            if (node.left === null) { 
-                node.left = newNode;
-            } else {
-                this._insertRecursive(node.left, newNode);
-            }
-        } else {
-            if (node.right === null) {
-                node.right = newNode;
-            } else {
-                this._insertRecursive(node.right, newNode);
-            }
-        }
-    }
-}
+root.left.left = new Node(4)
+console.log(root)
