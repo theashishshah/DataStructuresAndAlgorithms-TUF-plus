@@ -58,6 +58,13 @@ class Node {
         }
         return result
     }
+
+    postOrder(root, arr){
+        if(!root) return;
+        this.postOrder(root.left, arr)
+        this.postOrder(root.right, arr)
+        arr.push(root.data)
+    }
 }
 
 const root = new Node(1)
