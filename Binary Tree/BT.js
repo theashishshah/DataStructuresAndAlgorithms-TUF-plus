@@ -31,6 +31,13 @@ class Node {
         }
         return result
     }
+
+    preOrder(root, arr){
+        if(!root) return
+        arr.push(root.data)
+        this.preOrder(root.left, arr)
+        this.preOrder(root.right, arr)
+    }
 }
 
 const root = new Node(1)
