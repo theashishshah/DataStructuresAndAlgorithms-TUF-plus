@@ -6,10 +6,30 @@ class Node {
     }
 
     inOrder(root){
+        // TC: O(N) SC: O(N) + O(N)
         if(!root) return 
         this.inOrder(root.left)
         console.log(root.val)
         this.inOrder(root.right)
+    }
+    inOderUsingStack(root){
+        // TC: O(N) SC: O(N) + O(h)
+        if(!root) return []
+        const result = []
+        const stack = []
+        let currentNode = root
+        while(true){
+            if(currentNode){
+                stack.push(currentNode)
+                currentNode = currentNode.left
+            }else {
+                if(!stack.length) break
+                currentNode = stack.pop()
+                result.push(currentNode.data)
+                currentNode = currentNode.right
+            }
+        }
+        return result
     }
 }
 
