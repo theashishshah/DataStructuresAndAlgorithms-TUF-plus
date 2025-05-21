@@ -34,7 +34,7 @@ class Stack {
     }
 }
 
-const stack = new Stack(10);
+const stack = new Stack(3);
 stack.push(10);
 stack.push(110);
 stack.push(140);
