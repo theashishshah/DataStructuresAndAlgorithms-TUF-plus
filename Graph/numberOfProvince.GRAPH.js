@@ -24,3 +24,38 @@ class Solution {
         return count
     }
 }
+
+
+
+/**
+ * @param {number[][]} isConnected
+ * @return {number}
+ */
+function bfs(node, graphMatrix, visited, n) {
+    const queue = []
+    queue.push(node)
+    while (queue.length) {
+        const current = queue.shift()
+        for (let i = 0; i < n; i++) {
+            if (graphMatrix[current][i] === 1 && !visited[i]) {
+                visited[i] = true
+                queue.push(i)
+            }
+        }
+    }
+
+}
+
+var findCircleNum = function (graphMatrix) {
+    const n = graphMatrix.length
+    let count = 0
+    const visited = new Array(n).fill(false)
+    for (let i = 0; i < n; i++) {
+        if (!visited[i]) {
+            visited[i] = true
+            count++
+            bfs(i, graphMatrix, visited, n)
+        }
+    }
+    return count
+};
