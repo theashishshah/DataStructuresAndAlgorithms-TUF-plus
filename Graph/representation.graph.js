@@ -11,3 +11,11 @@ for (cosnt[u, v, w] of edges) {
     adjWeighted[u][v] = w
     adjWeighted[v][u] = w
 }
+
+
+const list = Array.from({ length: n }, () => [])
+
+for (const [u, v] of edges) {
+    list[u].push(v)
+    list[v].push(u)
+}
