@@ -123,6 +123,7 @@ This document contains the most common patterns in Data Structures & Algorithms.
 -   **Approach**: Divide and conquer.
 
 **Example Problems**:
+- [Minimum Distance to Place Cows (🟡 Medium)](https://www.interviewbit.com/problems/aggressive-cows/)
 
 -   Binary Search
 -   Search in Rotated Sorted Array
