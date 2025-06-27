@@ -42,4 +42,44 @@ class Solution {
         return count;
     }
 }
-  
+
+/**
+ * @param {character[][]} grid
+ * @return {number}
+ */
+
+var numIslands = function (grid) {
+    const rows = grid.length
+    const cols = grid[0].length
+    const visited = Array.from({ length: rows }, () => Array(cols).fill(false))
+    const directions = [[0, 1], [0, -1], [1, 0], [-1, 0]]
+    function bfs(row, col) {
+        const queue = []
+        queue.push([row, col])
+        visited[row][col] = true
+        while (queue.length) {
+            const [crow, ccol] = queue.shift()
+            for (const [dx, dy] of directions) {
+                const nrow = crow + dx
+                const ncol = ccol + dy
+                if (nrow < rows && ncol < cols && nrow >= 0 && ncol >= 0
+                    && grid[nrow][ncol] === "1" && !visited[nrow][ncol]
+                ) {
+                    visited[nrow][ncol] = true
+                    queue.push([nrow, ncol])
+                }
+            }
+        }
+    }
+
+    let count = 0
+    for (let i = 0; i < rows; i++) {
+        for (let j = 0; j < cols; j++) {
+            if (grid[i][j] === "1" && !visited[i][j]) {
+                count++
+                bfs(i, j)
+            }
+        }
+    }
+    return count
+};
