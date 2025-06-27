@@ -122,7 +122,7 @@ class Solution {
                 if (grid[i][j] === 1) fresh++;
             }
         }
-        return fresh > 0 ? -1 : minutes > 0 ? minutes - 1 : 0;
+        return fresh > 0 ? -1 : Math.max(0, minutes - 1);;
     }
 }
   
