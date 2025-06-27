@@ -25,9 +25,9 @@ This document contains the most common patterns in Data Structures & Algorithms.
 - **Approach**: Left and right pointers move towards each other or in sync.
 
 **Example Problems**:
-- 2 Sum II
-- Remove Duplicates from Sorted Array
-- Container With Most Water
+- [Two Sum II - Input Array Is Sorted (Easy)](https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/)
+- [Container With Most Water (Medium)](https://leetcode.com/problems/container-with-most-water/)
+- [3Sum (Medium)](https://leetcode.com/problems/3sum/)
 
 ---
 
@@ -38,9 +38,9 @@ This document contains the most common patterns in Data Structures & Algorithms.
 - **Approach**: One pointer moves twice as fast.
 
 **Example Problems**:
-- Linked List Cycle
-- Happy Number
-- Find the Middle of Linked List
+- [Linked List Cycle (Easy)](https://leetcode.com/problems/linked-list-cycle/)
+- [Happy Number (Easy)](https://leetcode.com/problems/happy-number/)
+- [Middle of the Linked List (Easy)](https://leetcode.com/problems/middle-of-the-linked-list/)
 
 ---
 
@@ -51,9 +51,9 @@ This document contains the most common patterns in Data Structures & Algorithms.
 - **Approach**: Sort by start, then merge based on overlap.
 
 **Example Problems**:
-- Merge Intervals
-- Insert Interval
-- Meeting Rooms
+- [Merge Intervals (Medium)](https://leetcode.com/problems/merge-intervals/)
+- [Insert Interval (Medium)](https://leetcode.com/problems/insert-interval/)
+- [Meeting Rooms (Easy - LC Premium)](https://www.lintcode.com/problem/meeting-rooms/)
 
 ---
 
@@ -64,10 +64,9 @@ This document contains the most common patterns in Data Structures & Algorithms.
 - **Approach**: Place numbers at their correct indices.
 
 **Example Problems**:
-- Missing Number
-- Find All Duplicates in Array
-- First Missing Positive
-
+- [Missing Number (Easy)](https://leetcode.com/problems/missing-number/)
+- [First Missing Positive (Hard)](https://leetcode.com/problems/first-missing-positive/)
+- [Find All Duplicates in an Array (Medium)](https://leetcode.com/problems/find-all-duplicates-in-an-array/)
 ---
 
 ## 📌 6. In-place Linked List Reversal
