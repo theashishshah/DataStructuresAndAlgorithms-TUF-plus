@@ -281,7 +281,8 @@ This document contains the most common patterns in Data Structures & Algorithms.
 ---
 
 **Example Problems**:
-- [Flood Fill (**Easy**)](https://leetcode.com/problems/flood-fill/)
+- [Flood Fill (<span style="color:green"><strong>Easy</strong></span>)](https://leetcode.com/problems/flood-fill/)
+
 
 
 ---
