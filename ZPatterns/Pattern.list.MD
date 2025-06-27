@@ -250,6 +250,41 @@ This document contains the most common patterns in Data Structures & Algorithms.
 - Pow(x, n)
 
 ---
+## 📌 20. Breadth-First Search (BFS)
+
+### ✅ Use When:
+- You need to find the **shortest path** in an unweighted graph or grid.
+- You want to explore all nodes **level-by-level** (i.e., all nodes at depth `d` before depth `d+1`).
+- You're dealing with **connected components**, **tree/graph traversal**, or **flood fill**.
+- Problems require a **multi-source expansion** (e.g. rotting oranges, spreading fire).
+
+---
+
+### 🔧 Approach:
+1. Use a **queue (FIFO)** to keep track of nodes to visit.
+2. Mark nodes as **visited** once they are enqueued to avoid cycles.
+3. While the queue is not empty:
+    - Dequeue the front node.
+    - Enqueue all of its unvisited, valid neighbors.
+4. Continue until all reachable nodes are visited.
+
+---
+
+### 🧠 Typical Applications:
+- Finding the **shortest path** in an unweighted graph or 2D grid.
+- **Counting islands** or connected regions in a matrix.
+- **Level-order traversal** in trees.
+- Solving puzzles like **Word Ladder**, **Sliding Puzzle**, or **Knight’s shortest path**.
+- **Maze solving**.
+- **Topological sort** (Kahn's Algorithm variant).
+
+---
+
+**Example Problems**:
+- [Flood Fill (**Easy**)](https://leetcode.com/problems/flood-fill/)
+
+
+---
 
 ## ✍️ How to Use This Sheet
 
