@@ -12,8 +12,9 @@ This document contains the most common patterns in Data Structures & Algorithms.
 - **Variable Size Window** – When the window size changes depending on the condition.
 
 **Example Problems**:
-- Maximum Sum Subarray of Size K
-- Longest Substring Without Repeating Characters
+- [Maximum Sum Subarray of Size K (Easy)](https://leetcode.com/problems/maximum-average-subarray-i/)
+- [Longest Substring Without Repeating Characters (Medium)](https://leetcode.com/problems/longest-substring-without-repeating-characters/)
+- [Minimum Size Subarray Sum (Medium)](https://leetcode.com/problems/minimum-size-subarray-sum/)
 
 ---
 
