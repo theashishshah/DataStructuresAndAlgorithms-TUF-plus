@@ -312,6 +312,7 @@ This document contains the most common patterns in Data Structures & Algorithms.
 - [Rotting Oranges (🟡 Medium)](https://leetcode.com/problems/rotting-oranges/)
 - [01 Matrix (🟡 Medium)](https://leetcode.com/problems/01-matrix/)
 - [Surrounded Regions (🟡 Medium)](https://leetcode.com/problems/surrounded-regions/)
+- [Number of Distinct Islands (🟡 Medium)](https://leetcode.com/problems/number-of-distinct-islands/) *(Premium)*
 
 
 
