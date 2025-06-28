@@ -46,3 +46,49 @@ class Solution {
         return grid
     }
 }
+
+
+
+
+/**
+ * @param {character[][]} board
+ * @return {void} Do not return anything, modify board in-place instead.
+ */
+var solve = function (grid) {
+    // solve this by using dfs traversal
+    const rows = grid.length
+    const cols = grid[0].length
+    const directions = [[0, 1], [0, -1], [1, 0], [-1, 0]]
+    const visited = Array.from({ length: rows }, () => Array(cols).fill(false))
+    function dfs(row, col) {
+        visited[row][col] = true
+        for (const [dx, dy] of directions) {
+            const nrow = row + dx
+            const ncol = col + dy
+            if (nrow < rows && ncol < cols
+                && nrow >= 0 && ncol >= 0
+                && grid[nrow][ncol] === "O" && !visited[nrow][ncol]
+            ) {
+                dfs(nrow, ncol)
+            }
+        }
+        return
+    }
+    for (let i = 0; i < rows; i++) {
+        for (let j = 0; j < cols; j++) {
+            if ((i === 0 || j === 0 ||
+                i === rows - 1 || j === cols - 1)
+                && grid[i][j] === "O" && !visited[i][j]
+            ) {
+                dfs(i, j)
+            }
+        }
+    }
+
+    for (let i = 0; i < rows; i++) {
+        for (let j = 0; j < cols; j++) {
+            if (grid[i][j] === "O" && !visited[i][j]) grid[i][j] = "X"
+        }
+    }
+    return grid
+};
