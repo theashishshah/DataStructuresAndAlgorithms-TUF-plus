@@ -314,6 +314,7 @@ This document contains the most common patterns in Data Structures & Algorithms.
 - [Surrounded Regions (🟡 Medium)](https://leetcode.com/problems/surrounded-regions/)
 - [Number of Distinct Islands (🟡 Medium)](https://leetcode.com/problems/number-of-distinct-islands/) *(Premium)*
 - [Detect Cycle in an Undirected Graph (🟡 Medium)](https://leetcode.com/problems/find-if-path-exists-in-graph/) *(Modified usage, exact problem not available)*
+- [Is Graph Bipartite? (🟡 Medium)](https://leetcode.com/problems/is-graph-bipartite/)
 
 
 
