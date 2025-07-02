@@ -1,4 +1,6 @@
 class Solution {
+    // TC: O(N + N) + Nlog(N)
+    // SC: O(N) * 3
     dfs(node, path, visited, ans, graph) {
         visited[node] = true
         path[node] = true
