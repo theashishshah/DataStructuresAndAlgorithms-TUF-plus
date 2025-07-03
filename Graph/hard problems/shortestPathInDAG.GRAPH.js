@@ -47,3 +47,54 @@ class Solution {
         return dist
     }
 }
+
+
+class Solution {
+    dfs(node, graph, visited, ans) {
+        // traverse its neighbours node
+        for (const [nnode, weight] of graph[node]) {
+            if (!visited[nnode]) {
+                visited[nnode] = true
+                this.dfs(nnode, graph, visited, ans)
+                ans.push(nnode)
+            }
+        }
+    }
+    shortestPath(n, m, edges) {
+        /// input: [0, ,1, 2] => you can go to: 0 ----2---> 1
+        // input [0, 2, 1] => you can go to : 0 ----1----> 2
+        // So I need to form adj list else complexity and traversal will increase
+
+        const graph = Array(n).fill().map(() => [])
+        for (const [from, to, weight] of edges) {
+            graph[from].push([to, weight])
+        }
+
+        // now you've to graph, find topo sorting
+        const visited = Array(n).fill(false)
+        const ans = []
+        for (let i = 0; i < n; i++) {
+            if (!visited[i]) {
+                visited[i] = true
+                this.dfs(i, graph, visited, ans)
+                ans.push(i)
+            }
+        }
+
+        // now you've have to topo sort, find dist
+        const dist = Array(n).fill(Infinity)
+        dist[0] = 0
+        while (ans.length) {
+            const current = ans.pop()
+            const lcDist = dist[current]
+            if (lcDist !== Infinity) {
+                for (const [nnode, weight] of graph[current]) {
+                    if (lcDist + weight < dist[nnode]) {
+                        dist[nnode] = lcDist + weight
+                    }
+                }
+            } else dist[current] = -1
+        }
+        return dist
+    }
+}
