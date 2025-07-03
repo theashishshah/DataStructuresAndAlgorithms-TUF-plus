@@ -49,3 +49,60 @@ class Solution {
         return strAns
     }
 }
+
+
+// using dfs
+class Solution {
+
+    dfs(node, graph, visited, ans) {
+
+        // Traverse the nnode
+        for (const nnode of graph[node]) {
+            if (!visited[nnode]) {
+                visited[nnode] = true
+                this.dfs(nnode, graph, visited, ans)
+                ans.push(nnode)
+            }
+        }
+
+    }
+
+    findOrder(dict, n, k) {
+        // build the graph
+        const graph = Array(k).fill().map(() => [])
+
+        for (let i = 0; i < n - 1; i++) {
+            const curr = dict[i]
+            const next = dict[i + 1]
+            const len = Math.min(curr.length, next.length)
+            for (let j = 0; j < len; j++) {
+                if (curr[j] !== next[j]) {
+                    const fromIndex = curr[j].charCodeAt(0) - 97
+                    const toIndex = next[j].charCodeAt(0) - 97
+                    graph[fromIndex].push(toIndex)
+                    break
+                }
+            }
+        }
+
+        const ans = []
+        // now Traverse the graph using dfs
+        const visited = Array(k).fill(false)
+        for (let i = 0; i < k; i++) {
+            if (!visited[i]) {
+                visited[i] = true
+                this.dfs(i, graph, visited, ans)
+                ans.push(i)
+            }
+        }
+
+        ans.reverse()
+        // map the number to respective characters
+        let strAns = ""
+        for (let i = 0; i < ans.length; i++) {
+            strAns += String.fromCharCode(97 + ans[i])
+            strAns += " "
+        }
+        return strAns
+    }
+}
