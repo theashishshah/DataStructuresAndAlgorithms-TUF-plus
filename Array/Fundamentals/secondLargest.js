@@ -35,3 +35,21 @@ class Solution {
         else return second
     }
 }
+
+
+// Optimal
+class Solution {
+    secondLargestElement(nums) {
+        if (nums.length === 1) return -1
+        let largest = nums[0]
+        let second = -Infinity
+        for (let i = 0; i < nums.length; i++) {
+            if (nums[i] > largest) {
+                second = largest
+                largest = nums[i]
+            } else if (nums[i] > second && nums[i] < largest) second = nums[i]
+        }
+
+        return second === -Infinity ? -1 : second
+    }
+}
