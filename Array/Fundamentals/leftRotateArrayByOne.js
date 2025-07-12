@@ -36,3 +36,23 @@ class Solution {
         return nums
     }
 }
+
+// optimal 
+class Solution {
+    reverseArr(nums, start, end) {
+        while (start < end) {
+            [nums[start], nums[end]] = [nums[end], nums[start]]
+            start++
+            end--
+        }
+    }
+    rotateArray(nums, k) {
+        if (k <= 0) return nums
+        k = k % nums.length
+
+        this.reverseArr(nums, 0, k - 1)
+        this.reverseArr(nums, k, nums.length - 1)
+        nums.reverse()
+        return nums
+    }
+}
