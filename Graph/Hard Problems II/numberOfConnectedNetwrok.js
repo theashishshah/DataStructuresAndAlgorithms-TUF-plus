@@ -49,3 +49,37 @@ class Solution {
 
     }
 }
+
+
+
+class Solution {
+    solve(n, connections) {
+        if (connections.length < n - 1) return -1; // Not enough cables
+
+        const adj = Array.from({ length: n }, () => []);
+        for (const [u, v] of connections) {
+            adj[u].push(v);
+            adj[v].push(u);
+        }
+
+        const visited = new Array(n).fill(false);
+        let components = 0;
+
+        const dfs = (node) => {
+            visited[node] = true;
+            for (const neighbor of adj[node]) {
+                if (!visited[neighbor]) dfs(neighbor);
+            }
+        };
+
+        for (let i = 0; i < n; i++) {
+            if (!visited[i]) {
+                components++;
+                dfs(i);
+            }
+        }
+
+        return components - 1;
+    }
+}
+
