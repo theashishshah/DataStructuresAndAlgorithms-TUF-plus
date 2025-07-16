@@ -39,3 +39,20 @@ class Solution {
         }
     }
 }
+
+
+
+class Solution {
+    missingNumber(nums) {
+        // TC: O(n)
+        // SC: O(1) this is the optimal
+        const n = nums.length
+        const sum = (n * (n + 1)) / 2
+        let arrSum = 0
+        for (let i = 0; i < n; i++) {
+            arrSum += nums[i]
+        }
+        if (sum === arrSum) return 0
+        else return sum - arrSum
+    }
+}
