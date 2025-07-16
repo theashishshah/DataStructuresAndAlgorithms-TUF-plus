@@ -23,3 +23,19 @@ var missingNumber = function (nums) {
     }
     return nums.length
 };
+
+
+class Solution {
+    missingNumber(nums) {
+        // TC: O(n) + O(n) == O(n)
+        // SC: O(n + 1) == O(n)
+        const hash = new Array(nums.length + 1).fill(-1)
+        for (let i = 0; i < nums.length; i++) {
+            hash[nums[i]] = nums[i]
+        }
+
+        for (let i = 0; i < hash.length; i++) {
+            if (hash[i] === -1) return i
+        }
+    }
+}
