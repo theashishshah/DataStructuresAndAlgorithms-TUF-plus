@@ -17,3 +17,17 @@ class Solution {
 }
 
 
+class Solution {
+    moveZeroes(nums) {
+        let insertPos = 0;  // Points to where the next non-zero should go
+
+        for (let i = 0; i < nums.length; i++) {
+            if (nums[i] !== 0) {
+                [nums[i], nums[insertPos]] = [nums[insertPos], nums[i]];
+                insertPos++;
+            }
+        }
+
+        return nums;
+    }
+}
