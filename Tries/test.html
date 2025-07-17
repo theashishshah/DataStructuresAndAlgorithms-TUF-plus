@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Trie Visualization</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chosen Palette: Calm Harmony -->
+    <!-- Application Structure Plan: The application is structured into a two-column layout to facilitate active learning. The left column features a large, dynamic canvas for visualizing the Trie, which is the primary focus. The right column contains collapsible accordion sections for: 1) A conceptual introduction ('What is a Trie?'), 2) A code explorer ('Under the Hood'), and 3) An interactive sandbox ('Test Drive'). This structure allows users to seamlessly connect theory (text), implementation (code), and practice (visualization and testing) without leaving the main view. The user can build the Trie visually, inspect the code that powers it, and then immediately test its functionality, creating a tight and effective learning loop. -->
+    <!-- Visualization & Content Choices: The core of this application is a custom, interactive Trie diagram built with the HTML5 Canvas API. This choice was made because standard libraries like Chart.js are not suitable for displaying dynamic, non-standard graph structures like a Trie, and the requirements forbid the use of SVG or other graphics libraries. The Canvas provides the necessary flexibility to draw nodes, connections, and text labels, and to update the visualization in real-time based on user input. For other content: Textual explanations are presented in clean HTML paragraphs within an accordion for clarity. The code is displayed in pre-formatted blocks, also within the accordion, allowing users to reference it without cluttering the main UI. User interaction is handled via standard HTML inputs and buttons, which trigger JavaScript functions to manipulate the Trie data structure and redraw the canvas. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Roboto+Mono:wght@400;500&display=swap');
+        .font-mono {
+            font-family: 'Roboto Mono', monospace;
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        .accordion-button.active + .accordion-content {
+            max-height: 1000px; /* Adjust as needed */
+        }
+        .accordion-button .accordion-icon {
+            transition: transform 0.3s ease-out;
+        }
+        .accordion-button.active .accordion-icon {
+            transform: rotate(180deg);
+        }
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-stone-50 text-stone-800">
+
+    <div class="container mx-auto px-4 py-8">
+        <header class="text-center mb-8">
+            <h1 class="text-4xl md:text-5xl font-bold text-teal-800">The Trie Data Structure</h1>
+            <p class="text-stone-500 mt-2">An interactive guide to the prefix tree, now with AI superpowers.</p>
+        </header>
+
+        <main class="grid grid-cols-1 lg:grid-cols-5 gap-8">
+            
+            <div class="lg:col-span-3 bg-white rounded-2xl shadow-lg border border-stone-200 p-4 sm:p-6 flex flex-col">
+                <div class="flex-1 flex flex-col">
+                    <h2 class="text-2xl font-bold text-teal-700 mb-4">Live Trie Visualizer</h2>
+                    <div class="w-full flex-1 min-h-[400px] md:min-h-[500px] bg-stone-50 rounded-lg relative">
+                         <canvas id="trieCanvas"></canvas>
+                         <p id="canvas-placeholder" class="absolute inset-0 flex items-center justify-center text-stone-400 text-center p-4">Insert a word or use the ✨ AI suggestions on the right to start building the Trie!</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-2 flex flex-col gap-6">
+                <div class="bg-white rounded-2xl shadow-lg border border-stone-200 p-1 sm:p-2">
+                    
+                    <div>
+                        <button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg hover:bg-stone-100 transition-colors" data-target="accordion-1">
+                            <span class="text-xl font-bold text-teal-700">What is a Trie?</span>
+                            <span class="accordion-icon text-teal-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                            </span>
+                        </button>
+                        <div id="accordion-1" class="accordion-content px-4 pb-4">
+                             <p class="text-stone-600 mt-2">A Trie (pronounced "try"), also known as a prefix tree, is a special type of tree used to efficiently store and retrieve strings. Its main advantage is fast prefix-based searching.</p>
+                             <p class="text-stone-600 mt-2">Each node represents a single character. A path from the root to a node represents a prefix. If a node is marked as the end of a word (shown in green), that path is a complete word in the set.</p>
+                        </div>
+                    </div>
+
+                    <div>
+                        <button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg hover:bg-stone-100 transition-colors" data-target="accordion-2">
+                            <span class="text-xl font-bold text-teal-700">Under the Hood</span>
+                            <span class="accordion-icon text-teal-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                            </span>
+                        </button>
+                        <div id="accordion-2" class="accordion-content px-4 pb-4">
+                            <p class="text-stone-600 mt-2">The Trie is built with two main classes: `Node` and `Trie`. The visualization on the left is a direct representation of these data structures in action.</p>
+                            <div class="mt-4">
+                                <pre class="bg-stone-800 text-white p-4 rounded-lg font-mono text-sm overflow-x-auto"><code>class Node { ... }</code></pre>
+                                <pre class="bg-stone-800 text-white p-4 rounded-lg font-mono text-sm overflow-x-auto mt-2"><code>class Trie { ... }</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <button class="accordion-button active w-full flex justify-between items-center text-left p-4 rounded-lg hover:bg-stone-100 transition-colors" data-target="accordion-3">
+                            <span class="text-xl font-bold text-teal-700">Test Drive</span>
+                            <span class="accordion-icon text-teal-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                            </span>
+                        </button>
+                        <div id="accordion-3" class="accordion-content px-4 pb-4">
+                            <div class="space-y-4 mt-2">
+                                <div>
+                                    <label for="suggest-prefix" class="font-semibold text-stone-700">✨ AI: Suggest & Insert Words</label>
+                                    <div class="flex items-center gap-2 mt-1">
+                                        <input type="text" id="suggest-prefix" placeholder="Enter a prefix (e.g., 'pre')" class="w-full px-3 py-2 border border-stone-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 transition">
+                                        <button id="suggest-btn" class="bg-purple-600 text-white px-4 py-2 rounded-md font-semibold hover:bg-purple-700 transition-colors flex items-center gap-2 disabled:bg-stone-300">Suggest</button>
+                                    </div>
+                                </div>
+                                <hr/>
+                                <div>
+                                    <label for="insert-word" class="font-semibold text-stone-700">1. Insert a word</label>
+                                    <div class="flex items-center gap-2 mt-1">
+                                        <input type="text" id="insert-word" placeholder="e.g., apple" class="w-full px-3 py-2 border border-stone-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 transition">
+                                        <button id="insert-btn" class="bg-teal-600 text-white px-4 py-2 rounded-md font-semibold hover:bg-teal-700 transition-colors disabled:bg-stone-300">Insert</button>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label for="search-word" class="font-semibold text-stone-700">2. Search for a full word</label>
+                                    <div class="flex items-center gap-2 mt-1">
+                                        <input type="text" id="search-word" placeholder="e.g., apple" class="w-full px-3 py-2 border border-stone-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 transition">
+                                        <button id="search-btn" class="bg-amber-600 text-white px-4 py-2 rounded-md font-semibold hover:bg-amber-700 transition-colors disabled:bg-stone-300">Search</button>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label for="prefix-word" class="font-semibold text-stone-700">3. Check for a prefix</label>
+                                    <div class="flex items-center gap-2 mt-1">
+                                        <input type="text" id="prefix-word" placeholder="e.g., app" class="w-full px-3 py-2 border border-stone-300 rounded-md focus:outline-none focus:ring-2 focus:ring-sky-500 transition">
+                                        <button id="prefix-btn" class="bg-sky-600 text-white px-4 py-2 rounded-md font-semibold hover:bg-sky-700 transition-colors disabled:bg-stone-300">Check</button>
+                                    </div>
+                                </div>
+                                <div id="result-box" class="hidden p-3 rounded-md text-center font-medium"></div>
+                                <div id="ai-actions" class="flex justify-center"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="mt-2 text-center">
+                    <button id="reset-btn" class="bg-red-600 text-white px-5 py-2 rounded-md font-semibold hover:bg-red-700 transition-colors w-full">Reset Trie</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // --- DATA STRUCTURES ---
+        class Node {
+            constructor(char = '', parent = null) {
+                this.links = new Array(26).fill(null);
+                this.isEnd = false;
+                this.char = char;
+                this.parent = parent;
+                this.x = 0;
+                this.y = 0;
+                this.highlight = null; 
+            }
+            containsKey(ch) { return this.links[ch.charCodeAt(0) - 'a'.charCodeAt(0)] !== null; }
+            get(ch) { return this.links[ch.charCodeAt(0) - 'a'.charCodeAt(0)]; }
+            put(ch, node) { this.links[ch.charCodeAt(0) - 'a'.charCodeAt(0)] = node; }
+            setEnd() { this.isEnd = true; }
+        }
+
+        class Trie {
+            constructor() { this.root = new Node('root'); }
+            insert(word) {
+                let node = this.root;
+                for (const ch of word) {
+                    if (!node.containsKey(ch)) {
+                        node.put(ch, new Node(ch, node));
+                    }
+                    node = node.get(ch);
+                }
+                node.setEnd();
+            }
+            _traverse(word) {
+                let node = this.root;
+                for (const ch of word) {
+                    if (!node.containsKey(ch)) return null;
+                    node = node.get(ch);
+                }
+                return node;
+            }
+            search(word) {
+                const node = this._traverse(word);
+                return node !== null && node.isEnd;
+            }
+            startsWith(prefix) {
+                const node = this._traverse(prefix);
+                return node !== null;
+            }
+        }
+
+        // --- CANVAS VISUALIZATION ---
+        const canvas = document.getElementById('trieCanvas');
+        const ctx = canvas.getContext('2d');
+        let trie = new Trie();
+        let isDirty = true;
+        const NODE_RADIUS = 18;
+        const LEVEL_HEIGHT = 80;
+        
+        function resizeCanvas() {
+            const container = canvas.parentElement;
+            canvas.width = container.clientWidth;
+            canvas.height = container.clientHeight;
+            isDirty = true;
+        }
+
+        function calculateNodePositions(node, depth, xStart, xEnd) {
+            node.x = xStart + (xEnd - xStart) / 2;
+            node.y = depth * LEVEL_HEIGHT + 50;
+            const children = node.links.filter(link => link !== null);
+            const childCount = children.length;
+            if (childCount === 0) return;
+            const segmentWidth = (xEnd - xStart) / childCount;
+            children.forEach((child, i) => {
+                const childXStart = xStart + i * segmentWidth;
+                const childXEnd = childXStart + segmentWidth;
+                calculateNodePositions(child, depth + 1, childXStart, childXEnd);
+            });
+        }
+        
+        function drawNode(node) {
+            ctx.beginPath();
+            if (node.highlight === 'path') {
+                ctx.fillStyle = '#fde68a';
+                ctx.strokeStyle = '#f59e0b';
+            } else if (node.highlight === 'end') {
+                ctx.fillStyle = '#a7f3d0';
+                ctx.strokeStyle = '#10b981';
+            } else if (node.isEnd) {
+                ctx.fillStyle = '#d1fae5';
+                ctx.strokeStyle = '#10b981';
+            } else {
+                ctx.fillStyle = node.char === 'root' ? '#e7e5e4' : '#ffffff';
+                ctx.strokeStyle = '#a8a29e';
+            }
+            ctx.lineWidth = 2.5;
+            ctx.arc(node.x, node.y, NODE_RADIUS, 0, 2 * Math.PI);
+            ctx.fill();
+            ctx.stroke();
+            ctx.fillStyle = '#1c1917';
+            ctx.font = 'bold 16px Inter';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(node.char === 'root' ? ' ' : node.char, node.x, node.y);
+        }
+
+        function drawLine(fromNode, toNode) {
+            ctx.beginPath();
+            ctx.strokeStyle = '#a8a29e';
+            ctx.lineWidth = 2;
+            ctx.moveTo(fromNode.x, fromNode.y);
+            ctx.lineTo(toNode.x, toNode.y);
+            ctx.stroke();
+        }
+        
+        function drawTrie(node) {
+            node.links.forEach(child => {
+                if (child) {
+                    drawLine(node, child);
+                    drawTrie(child); 
+                }
+            });
+            drawNode(node);
+        }
+
+        function render() {
+            if (!isDirty) {
+                requestAnimationFrame(render);
+                return;
+            }
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            if (trie.root.links.every(l => l === null)) {
+                document.getElementById('canvas-placeholder').classList.remove('hidden');
+            } else {
+                document.getElementById('canvas-placeholder').classList.add('hidden');
+                calculateNodePositions(trie.root, 0, 0, canvas.width);
+                drawTrie(trie.root);
+            }
+            isDirty = false;
+            requestAnimationFrame(render);
+        }
+
+        function clearHighlights() {
+            function traverseAndClear(node) {
+                node.highlight = null;
+                node.links.forEach(child => {
+                    if (child) traverseAndClear(child);
+                });
+            }
+            traverseAndClear(trie.root);
+            isDirty = true;
+        }
+        
+        // --- UI & EVENT LISTENERS ---
+        const allInputs = document.querySelectorAll('input');
+        const allButtons = document.querySelectorAll('button');
+        const suggestPrefixInput = document.getElementById('suggest-prefix');
+        const suggestBtn = document.getElementById('suggest-btn');
+        const insertInput = document.getElementById('insert-word');
+        const insertBtn = document.getElementById('insert-btn');
+        const searchInput = document.getElementById('search-word');
+        const searchBtn = document.getElementById('search-btn');
+        const prefixInput = document.getElementById('prefix-word');
+        const prefixBtn = document.getElementById('prefix-btn');
+        const resultBox = document.getElementById('result-box');
+        const aiActionsContainer = document.getElementById('ai-actions');
+        const resetBtn = document.getElementById('reset-btn');
+
+        function sanitizeInput(input) {
+            return input.toLowerCase().replace(/[^a-z]/g, '');
+        }
+
+        function showResult(text, type, word = null) {
+            resultBox.textContent = text;
+            resultBox.className = 'p-3 rounded-md text-center font-medium'; // Reset classes
+            aiActionsContainer.innerHTML = '';
+
+            if (type === 'success') {
+                resultBox.classList.add('bg-emerald-100', 'text-emerald-800');
+                if (word) {
+                    const defineBtn = document.createElement('button');
+                    defineBtn.innerHTML = `✨ Define "${word}"`;
+                    defineBtn.className = 'bg-blue-600 text-white px-4 py-2 rounded-md font-semibold hover:bg-blue-700 transition-colors mt-2';
+                    defineBtn.onclick = () => defineWord(word);
+                    aiActionsContainer.appendChild(defineBtn);
+                }
+            } else if (type === 'failure') {
+                resultBox.classList.add('bg-red-100', 'text-red-800');
+            } else if (type === 'ai') {
+                 resultBox.classList.add('bg-blue-100', 'text-blue-800');
+            }
+        }
+        
+        function setLoading(isLoading) {
+            allInputs.forEach(i => i.disabled = isLoading);
+            allButtons.forEach(b => b.disabled = isLoading);
+            if(isLoading) {
+                const loader = document.createElement('div');
+                loader.className = 'loader';
+                suggestBtn.innerHTML = '';
+                suggestBtn.appendChild(loader);
+            } else {
+                suggestBtn.innerHTML = 'Suggest';
+            }
+        }
+
+        insertBtn.addEventListener('click', () => {
+            const word = sanitizeInput(insertInput.value);
+            if (word) {
+                clearHighlights();
+                trie.insert(word);
+                insertInput.value = '';
+                isDirty = true;
+                showResult(`Inserted "${word}"`, 'success');
+            }
+        });
+        
+        insertInput.addEventListener('keydown', (e) => { if(e.key === 'Enter') insertBtn.click(); });
+
+        searchBtn.addEventListener('click', () => {
+            const word = sanitizeInput(searchInput.value);
+            if (!word) return;
+            clearHighlights();
+            const result = trie.search(word);
+            const pathNode = trie._traverse(word);
+            if (pathNode) {
+                let curr = pathNode;
+                while(curr && curr.char !== 'root') {
+                    curr.highlight = result ? 'end' : 'path';
+                    curr = curr.parent;
+                }
+            }
+            isDirty = true;
+            if (result) {
+                showResult(`Word "${word}" found!`, 'success', word);
+            } else {
+                showResult(`Word "${word}" not found.`, 'failure');
+            }
+        });
+        
+        searchInput.addEventListener('keydown', (e) => { if(e.key === 'Enter') searchBtn.click(); });
+
+        prefixBtn.addEventListener('click', () => {
+            const prefix = sanitizeInput(prefixInput.value);
+            if (!prefix) return;
+            clearHighlights();
+            const result = trie.startsWith(prefix);
+            const pathNode = trie._traverse(prefix);
+            if (pathNode) {
+                let curr = pathNode;
+                while(curr && curr.char !== 'root') {
+                    curr.highlight = 'end';
+                    curr = curr.parent;
+                }
+            }
+            isDirty = true;
+            if (result) {
+                showResult(`Prefix "${prefix}" exists!`, 'success');
+            } else {
+                showResult(`Prefix "${prefix}" does not exist.`, 'failure');
+            }
+        });
+        
+        prefixInput.addEventListener('keydown', (e) => { if(e.key === 'Enter') prefixBtn.click(); });
+        
+        resetBtn.addEventListener('click', () => {
+            trie = new Trie();
+            clearHighlights();
+            isDirty = true;
+            resultBox.classList.add('hidden');
+            aiActionsContainer.innerHTML = '';
+        });
+
+        document.querySelectorAll('.accordion-button').forEach(button => {
+            button.addEventListener('click', () => {
+                if (button.classList.contains('active')) {
+                    button.classList.remove('active');
+                } else {
+                    document.querySelectorAll('.accordion-button').forEach(b => b.classList.remove('active'));
+                    button.classList.add('active');
+                }
+            });
+        });
+
+        // --- GEMINI API FEATURES ---
+        async function callGemini(prompt, jsonSchema = null) {
+            setLoading(true);
+            const apiKey = "";
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+            
+            let payload = {
+                contents: [{ role: "user", parts: [{ text: prompt }] }]
+            };
+
+            if (jsonSchema) {
+                payload.generationConfig = {
+                    responseMimeType: "application/json",
+                    responseSchema: jsonSchema
+                };
+            }
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                if (!response.ok) {
+                    throw new Error(`API Error: ${response.statusText}`);
+                }
+                const result = await response.json();
+                if (result.candidates && result.candidates[0].content && result.candidates[0].content.parts[0]) {
+                    return result.candidates[0].content.parts[0].text;
+                } else {
+                    throw new Error("Invalid response structure from API.");
+                }
+            } catch (error) {
+                console.error("Gemini API call failed:", error);
+                showResult(`AI Error: ${error.message}`, 'failure');
+                return null;
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        suggestBtn.addEventListener('click', async () => {
+            const prefix = sanitizeInput(suggestPrefixInput.value);
+            if (!prefix) {
+                showResult("Please enter a prefix for suggestions.", 'failure');
+                return;
+            }
+
+            const prompt = `Suggest 5 common English words that start with the prefix '${prefix}'.`;
+            const schema = {
+                type: "OBJECT",
+                properties: {
+                    words: {
+                        type: "ARRAY",
+                        items: { type: "STRING" }
+                    }
+                },
+                required: ["words"]
+            };
+            
+            const resultText = await callGemini(prompt, schema);
+            if (resultText) {
+                try {
+                    const resultJson = JSON.parse(resultText);
+                    const words = resultJson.words.map(w => sanitizeInput(w));
+                    showResult(`AI suggested: ${words.join(', ')}. Inserting into Trie...`, 'ai');
+                    
+                    for (let i = 0; i < words.length; i++) {
+                        await new Promise(resolve => setTimeout(resolve, 300));
+                        trie.insert(words[i]);
+                        isDirty = true;
+                    }
+                } catch (e) {
+                    showResult("Failed to parse AI suggestions.", 'failure');
+                }
+            }
+        });
+
+        async function defineWord(word) {
+            const prompt = `Define the word "${word}" in a single, concise sentence.`;
+            const definition = await callGemini(prompt);
+            if (definition) {
+                showResult(definition, 'ai');
+            }
+        }
+
+        // --- INITIALIZATION ---
+        window.addEventListener('resize', resizeCanvas);
+        document.querySelector('.accordion-button[data-target="accordion-3"]').click();
+        resizeCanvas();
+        render();
+    </script>
+</body>
+</html>
