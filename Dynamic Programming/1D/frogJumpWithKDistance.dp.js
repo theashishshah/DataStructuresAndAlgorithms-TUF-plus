@@ -40,3 +40,23 @@ class Solution {
         return this.minCost(heights, n - 1, k, memo)
     }
 }
+
+
+class Solution {
+    frogJump(heights, k) {
+        const n = heights.length
+        if (n === 1) return 0
+        const dp = new Array(n).fill(-1)
+        dp[0] = 0
+        for (let i = 1; i < n; i++) {
+            let localMin = Infinity
+            for (let j = 1; j <= k; j++) {
+                if (i - j < 0) break
+                const jump = dp[i - j] + Math.abs(heights[i] - heights[i - j])
+                localMin = Math.min(localMin, jump)
+            }
+            dp[i] = localMin
+        }
+        return dp[n - 1]
+    }
+}
