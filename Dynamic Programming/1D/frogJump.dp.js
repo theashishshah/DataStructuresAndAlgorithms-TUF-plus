@@ -63,3 +63,23 @@ class Solution {
         return dp[n - 1]
     }
 }
+
+
+
+// space optimization
+class Solution {
+    frogJump(heights) {
+        const n = heights.length
+        if (n === 1) return 0
+        let prev = 0
+        let prev2 = 0
+        for (let i = 1; i < n; i++) {
+            const oneStep = prev + Math.abs(heights[i] - heights[i - 1])
+            const twoStep = i > 1 ? prev2 + Math.abs(heights[i] - heights[i - 2]) : Infinity
+            const curr = Math.min(oneStep, twoStep)
+            prev2 = prev
+            prev = curr
+        }
+        return prev
+    }
+}
