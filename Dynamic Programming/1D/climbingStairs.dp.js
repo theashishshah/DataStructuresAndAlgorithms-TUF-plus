@@ -25,3 +25,18 @@ class Solution {
         return recurse(n)
     }
 }
+
+
+class Solution {
+    climbStairs(n) {
+        // TC: O(n)
+        // SC: O(n)
+        const tabu = new Array(n + 1).fill(0)
+        tabu[0] = 1
+        tabu[1] = 1
+        for (let i = 2; i <= n; i++) {
+            tabu[i] = tabu[i - 1] + tabu[i - 2]
+        }
+        return tabu[n]
+    }
+}
