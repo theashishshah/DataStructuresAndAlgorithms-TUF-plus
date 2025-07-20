@@ -40,3 +40,18 @@ class Solution {
         return tabu[n]
     }
 }
+
+
+class Solution {
+    climbStairs(n) {
+        if (n === 0 || n === 1) return 1
+        let prev1 = 1
+        let prev2 = 1
+        for (let i = 2; i <= n; i++) {
+            const curr = prev1 + prev2
+            prev2 = prev1
+            prev1 = curr
+        }
+        return prev1
+    }
+}
