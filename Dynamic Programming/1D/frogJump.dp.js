@@ -14,3 +14,34 @@ class Solution {
         return jump(heights.length - 1)
     }
 }
+
+
+// using memoization
+class Solution {
+    /**
+     * a helper function to find min cost 
+     */
+
+    minCost(n, heights, memo) {
+        if (n <= 0) return 0
+        if (memo[n] !== -1) return memo[n]
+
+        const costOneStep = this.minCost(n - 1, heights, memo) + Math.abs(heights[n - 1] - heights[n])
+        let costTwoStep = Infinity
+        if (n > 1) {
+            costTwoStep = this.minCost(n - 2, heights, memo) + Math.abs(heights[n - 2] - heights[n])
+        }
+        return memo[n] = Math.min(costOneStep, costTwoStep)
+    }
+
+
+    frogJump(heights) {
+        // TC: O(n)
+        // SC: O(n) + O(n)
+        const n = heights.length
+        if (n === 1) return 0
+
+        const memo = new Array(n).fill(-1)
+        return this.minCost(n - 1, heights, memo)
+    }
+}
