@@ -45,3 +45,21 @@ class Solution {
         return this.minCost(n - 1, heights, memo)
     }
 }
+
+
+// tabulation
+class Solution {
+    frogJump(heights) {
+        const n = heights.length
+        if (n === 1) return 0
+
+        const dp = new Array(n).fill(0)
+        for (let i = 1; i < n; i++) {
+            const oneStep = dp[i - 1] + Math.abs(heights[i] - heights[i - 1])
+            const twoStep = i > 1 ? dp[i - 2] + Math.abs(heights[i] - heights[i - 2]) : Infinity
+            dp[i] = Math.min(oneStep, twoStep)
+        }
+
+        return dp[n - 1]
+    }
+}
