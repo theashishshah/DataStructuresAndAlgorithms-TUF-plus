@@ -9,6 +9,9 @@ class Solution {
 
 
 class Solution {
+    //  TC: O(N)
+    // SC: O(n) + O(n)
+
     climbStairs(n) {
         const dp = new Array(n + 1).fill(-1)
 
