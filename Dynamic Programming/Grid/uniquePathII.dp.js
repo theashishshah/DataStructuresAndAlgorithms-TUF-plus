@@ -50,14 +50,13 @@ class Solution {
 // using tabulation
 
 class Solution {
-
     uniquePathsWithObstacles(matrix) {
         // TC: O(m * n)
         // SC: O(m * n)
-        const m = matrix.length
-        const n = matrix[0].length
+        const m = matrix?.length
+        const n = matrix[0]?.length
 
-        if (matrix[0][0] === 1 || matrix[m - 1][n - 1] === 1) return 0
+        if (matrix?.[0]?.[0] === 1 || matrix?.[m - 1]?.[n - 1] === 1) return 0
         const dp = Array.from({ length: m }, () => Array(n).fill(-1))
 
         for (let row = 0; row < m; row++) {
