@@ -53,6 +53,8 @@ class Solution {
 // tabulation
 class Solution {
     uniquePaths(m, n) {
+        // TC: O(m + n) 
+        // SC: O(n + m)
         const dp = Array.from({ length: m }, () => Array(n).fill(-1))
         for (let row = 0; row < m; row++) {
             for (let col = 0; col < n; col++) {
@@ -68,3 +70,6 @@ class Solution {
         return dp[m - 1][n - 1]
     }
 }
+
+
+// space optimization
