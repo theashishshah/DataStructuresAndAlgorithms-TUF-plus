@@ -84,3 +84,31 @@ class Solution {
         return Math.max(this.linearRob(withFirst), this.linearRob(withLast))
     }
 }
+
+// tabulation
+class Solution {
+    robLinear(arr) {
+        const n = arr.length
+        const dp = new Array(n).fill(-1)
+        dp[0] = arr[0]
+        for (let i = 1; i < n; i++) {
+            let pick = arr[i]
+            if (i - 2 >= 0) pick += dp[i - 2]
+            let notPick = dp[i - 1]
+            dp[i] = Math.max(pick, notPick)
+        }
+        return dp[n - 1]
+    }
+
+    houseRobber(money) {
+        const n = money.length
+        if (n === 0) return 0
+        if (n === 1) return money[0]
+        if (n === 2) return Math.max(money[0], money[1])
+
+        const withFirst = money.slice(0, n - 1)
+        const withLast = money.slice(1)
+
+        return Math.max(this.robLinear(withFirst), this.robLinear(withLast))
+    }
+}
