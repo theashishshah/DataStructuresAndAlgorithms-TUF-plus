@@ -112,3 +112,35 @@ class Solution {
         return Math.max(this.robLinear(withFirst), this.robLinear(withLast))
     }
 }
+
+
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+function linearRob(money) {
+    const n = money.length
+    let prev = money[0]
+    let prev2 = 0
+    for (let i = 1; i < n; i++) {
+        let pick = money[i]
+        if (i - 2 >= 0) pick += prev2
+        let notPick = prev
+
+        // update the both
+        prev2 = prev
+        prev = Math.max(pick, notPick)
+    }
+    return prev
+}
+
+var rob = function (nums) {
+    const n = nums.length
+    if (n === 0) return 0
+    if (n === 1) return nums[0]
+    if (n === 2) return Math.max(nums[0], nums[1])
+
+    const withFirst = nums.slice(0, n - 1)
+    const withLast = nums.slice(1)
+    return Math.max(linearRob(withFirst), linearRob(withLast))
+};
