@@ -48,3 +48,23 @@ class Solution {
         return this.uniquePathsFinder(m - 1, n - 1, m, n, directions, memo)
     }
 }
+
+
+// tabulation
+class Solution {
+    uniquePaths(m, n) {
+        const dp = Array.from({ length: m }, () => Array(n).fill(-1))
+        for (let row = 0; row < m; row++) {
+            for (let col = 0; col < n; col++) {
+                if (row === 0 && col === 0) dp[row][col] = 1
+                else {
+                    // check up and down left if they exist else say you're 0
+                    const up = row > 0 ? dp[row - 1][col] : 0
+                    const left = col > 0 ? dp[row][col - 1] : 0
+                    dp[row][col] = up + left
+                }
+            }
+        }
+        return dp[m - 1][n - 1]
+    }
+}
