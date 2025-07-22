@@ -34,3 +34,24 @@ class Solution {
         return this.maxSum(n - 1, nums, memo)
     }
 }
+
+
+// tabulation 
+class Solution {
+    nonAdjacent(nums) {
+        const n = nums.length
+        if (n === 0) return 0
+        if (n === 1) return nums[0]
+
+        const dp = new Array(n).fill(-1)
+        dp[0] = nums[0]
+        for (let i = 1; i < n; i++) {
+            let pick = nums[i]
+            if (i - 2 >= 0) pick += dp[i - 2]
+            let notPick = dp[i - 1]
+            dp[i] = Math.max(pick, notPick)
+        }
+
+        return dp[n - 1]
+    }
+}
