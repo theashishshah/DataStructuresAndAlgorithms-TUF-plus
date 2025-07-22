@@ -55,3 +55,26 @@ class Solution {
         return dp[n - 1]
     }
 }
+
+// space optimization
+class Solution {
+    nonAdjacent(nums) {
+        const n = nums.length
+        if (n === 0) return 0
+        if (n === 1) return nums[0]
+
+        let prev = nums[0]
+        let prev2 = 0
+        for (let i = 1; i < n; i++) {
+            let pick = nums[i]
+            if (i - 2 >= 0) pick += prev2
+            let notPick = prev
+
+            // update the prev and prev2
+            prev2 = prev
+            prev = Math.max(pick, notPick)
+        }
+
+        return prev
+    }
+}
