@@ -25,3 +25,31 @@ class Solution {
         return Math.max(this.maxMoney(0, withFirst), this.maxMoney(0, withLast))
     }
 }
+
+
+class Solution {
+    maxMoney(index, money, memo) {
+        if (index >= money.length) return 0
+
+        if (memo[index] !== -1) return memo[index]
+
+        const pick = money[index] + this.maxMoney(index + 2, money, memo)
+        const notPick = this.maxMoney(index + 1, money, memo)
+
+        return memo[index] = Math.max(pick, notPick)
+    }
+
+    houseRobber(money) {
+        // using recursion
+        const n = money.length
+        if (n === 0) return 0
+        if (n === 1) return money[0]
+
+        const withFirst = money.slice(0, n - 1)
+        const withLast = money.slice(1)
+
+        const memo1 = new Array(n).fill(-1)
+        const memo2 = new Array(n).fill(-1)
+        return Math.max(this.maxMoney(0, withFirst, memo1), this.maxMoney(0, withLast, memo2))
+    }
+}
