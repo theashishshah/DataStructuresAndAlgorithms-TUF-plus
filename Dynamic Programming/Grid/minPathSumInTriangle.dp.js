@@ -42,3 +42,29 @@ class Solution {
         return this.findMinPathSum(0, 0, tri, memo)
     }
 }
+
+// using tabulation
+/**
+ * @param {number[][]} triangle
+ * @return {number}
+ */
+var minimumTotal = function (tri) {
+    const m = tri.length
+    if (m === 1) return tri[0][0]
+
+    const dp = []
+    dp.push([])
+
+    dp[0].push(tri[0][0])
+    for (let i = 1; i < m; i++) {
+        const n = tri[i].length
+        dp.push([])
+        dp[i].push(Array(n).fill(0))
+        for (let j = 0; j < n; j++) {
+            const top = j !== n - 1 ? dp[i - 1][j] : Infinity
+            const topLeft = j > 0 ? dp[i - 1][j - 1] : Infinity
+            dp[i][j] = tri[i][j] + Math.min(top, topLeft)
+        }
+    }
+    return Math.min(...dp[m - 1])
+};
