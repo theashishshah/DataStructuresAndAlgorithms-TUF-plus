@@ -13,3 +13,18 @@ var maxProfit = function (arr) {
     }
     return max
 };
+
+// optimized solution
+class Solution {
+    stockBuySell(arr, n) {
+        if (n === 1) return 0
+
+        let max = 0
+        let min = arr[0]
+        for (let i = 1; i < n; i++) {
+            max = Math.max(max, arr[i] - min)
+            min = Math.min(min, arr[i])
+        }
+        return max
+    }
+}
