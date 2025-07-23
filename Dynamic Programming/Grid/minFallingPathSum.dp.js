@@ -89,3 +89,28 @@ class Solution {
         return Math.min(...dp[m - 1])
     }
 }
+
+
+// space optimized 
+class Solution {
+    minFallingPathSum(matrix) {
+        const m = matrix.length
+        const n = matrix[0].length
+        if (m === 1) return Math.min(...matrix[0])
+
+        let prev = [...matrix[0]] // base case
+        for (let i = 1; i < m; i++) {
+            // store the current min values
+            const current = Array(n).fill(0)
+            for (let j = 0; j < n; j++) {
+                const top = prev[j]
+                const topLeft = j > 0 ? prev[j - 1] : Infinity
+                const topRight = j + 1 < n ? prev[j + 1] : Infinity
+                current[j] = matrix[i][j] + Math.min(top, topLeft, topRight)
+            }
+            prev = [...current]
+        }
+
+        return Math.min(...prev)
+    }
+}
