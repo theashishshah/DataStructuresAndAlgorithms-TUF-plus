@@ -68,3 +68,26 @@ var minimumTotal = function (tri) {
     }
     return Math.min(...dp[m - 1])
 };
+
+// space optimized 
+class Solution {
+    minTriangleSum(tri) {
+        const m = tri.length
+        if (m === 1) return tri[0][0]
+        let prev = []
+        prev.push(tri[0][0])
+
+        for (let i = 1; i < m; i++) {
+            const n = tri[i].length
+            const current = new Array(n).fill(0)
+            for (let j = 0; j < n; j++) {
+                const top = j !== n - 1 ? prev[j] : Infinity
+                const topLeft = j > 0 ? prev[j - 1] : Infinity
+                current[j] = tri[i][j] + Math.min(top, topLeft)
+            }
+            prev = current
+        }
+
+        return Math.min(...prev)
+    }
+}
