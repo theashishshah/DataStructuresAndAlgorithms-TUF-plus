@@ -62,3 +62,30 @@ var minFallingPathSum = function (matrix) {
     }
     return result
 };
+
+
+// using tabulation
+class Solution {
+    minFallingPathSum(matrix) {
+        const m = matrix.length
+        const n = matrix[0].length
+        if (m === 1) return Math.min(...matrix[0])
+
+        const dp = Array.from({ length: m }, () => Array(n).fill(-1))
+        // take first row as base case as you know you can start from any node
+        for (let i = 0; i < n; i++) {
+            dp[0][i] = matrix[0][i]
+        }
+
+        // now start from row 1 and iterate over all the dp 
+        for (let i = 1; i < m; i++) {
+            for (let j = 0; j < n; j++) {
+                const top = dp[i - 1][j]
+                const topLeft = j > 0 ? dp[i - 1][j - 1] : Infinity
+                const topRight = j + 1 < n ? dp[i - 1][j + 1] : Infinity
+                dp[i][j] = matrix[i][j] + Math.min(top, topLeft, topRight)
+            }
+        }
+        return Math.min(...dp[m - 1])
+    }
+}
