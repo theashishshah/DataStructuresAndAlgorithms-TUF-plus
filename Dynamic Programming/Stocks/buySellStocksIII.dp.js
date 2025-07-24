@@ -47,3 +47,28 @@ class Solution {
         return this.getMaxProfit(0, 1, 2, arr, n, dp)
     }
 }
+
+
+
+// using tabulation
+class Solution {
+
+    stockBuySell(prices, n) {
+        if (n <= 1) return 0
+        const dp = new Array(n + 1).fill().map(() => Array(2).fill().map(() => Array(3).fill(0)))
+
+        for (let index = n - 1; index >= 0; index--) {
+            for (let buy = 0; buy < 2; buy++) {
+                for (let cap = 1; cap <= 2; cap++) {
+                    if (buy === 1) {
+                        dp[index][buy][cap] = Math.max(-prices[index] + dp[index + 1][0][cap], dp[index + 1][1][cap])
+                    } else {
+                        dp[index][buy][cap] = Math.max(prices[index] + dp[index + 1][1][cap - 1], dp[index + 1][0][cap])
+                    }
+                }
+            }
+        }
+
+        return dp[0][1][2]
+    }
+}
