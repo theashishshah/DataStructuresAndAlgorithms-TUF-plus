@@ -78,3 +78,36 @@ class Solution {
         return dp[0][1]
     }
 }
+
+
+// space optimized solution
+/**
+ * @param {number[]} prices
+ * @return {number}
+ */
+var maxProfit = function (prices) {
+    const n = prices.length
+    if (n <= 1) return 0
+    // TC: O(n*2)
+    // SC: O(1)
+    let buy = 0
+    let sell = 0
+
+    for (let i = n - 1; i >= 0; i--) {
+        for (let j = 0; j < 2; j++) {
+            // j = 1 buy, j = 0 sell
+            if (j === 1) {
+                const buyToday = -prices[i] + sell
+                const skipToday = buy
+                buy = Math.max(buyToday, skipToday)
+            } else {
+                const sellToday = prices[i] + buy
+                const skipToday = sell
+                sell = Math.max(sellToday, skipToday)
+
+            }
+        }
+    }
+
+    return buy
+};
