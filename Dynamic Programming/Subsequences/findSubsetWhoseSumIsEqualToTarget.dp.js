@@ -1,16 +1,13 @@
 class Solution {
-    findSubsetHelper(index, target, arr, n) {
-        if (target < 0) return false
+    findSubsetHelper(index, target, nums, n) {
         if (target === 0) return true
-        if (index >= n) return false
+        if (index === n || target < 0) return false
 
-        if (this.findSubsetHelper(index + 1, target - arr[index], arr, n)) return true
-        else if (this.findSubsetHelper(index + 1, target, arr, n)) return true
-        return false
+        return this.findSubsetHelper(index + 1, target - nums[index], nums, n) ||
+            this.findSubsetHelper(index + 1, target, nums, n)
     }
-    isSubsetSum(arr, target) {
-        const n = arr.length
-        return this.findSubsetHelper(0, target, arr, n)
-
+    isSubsetSum(nums, target) {
+        const n = nums.length
+        return this.findSubsetHelper(0, target, nums, n)
     }
 }
