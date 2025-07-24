@@ -50,3 +50,31 @@ var maxProfit = function (prices) {
     const dpSell = new Array(n).fill(-1);
     return getMaxProfit(0, true, prices, n, dpBuy, dpSell);
 };
+
+// tabulation
+class Solution {
+    stockBuySell(prices, n) {
+        if (n <= 1) return 0
+        // TC: O(n*2)
+        // SC: O(n*2)
+        const dp = Array.from({ length: n + 1 }, () => Array(2).fill(-1))
+        dp[n][0] = dp[n][1] = 0 // if i'm buying or selling i'm getting profit of zero
+
+        for (let i = n - 1; i >= 0; i--) {
+            for (let j = 0; j < 2; j++) {
+                // j = 1 buy, j = 0 sell
+                if (j === 1) {
+                    const buyToday = -prices[i] + dp[i + 1][0]
+                    const skipToday = dp[i + 1][1]
+                    dp[i][j] = Math.max(buyToday, skipToday)
+                } else {
+                    const sellToday = prices[i] + dp[i + 1][1]
+                    const skipToday = dp[i + 1][0]
+                    dp[i][j] = Math.max(sellToday, skipToday)
+                }
+            }
+        }
+        // console.log(dp)
+        return dp[0][1]
+    }
+}
