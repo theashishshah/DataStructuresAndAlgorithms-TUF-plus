@@ -45,3 +45,24 @@ class Solution {
         return this.hasSubsetWithSum(0, target, arr, dp)
     }
 }
+
+// using tabulation
+class Solution {
+    isSubsetSum(arr, target) {
+        const n = arr.length
+        const dp = Array(n + 1).fill().map(() => Array(target + 1).fill(false))
+        for (let i = 0; i <= n; i++) {
+            dp[i][0] = true
+        }
+
+        // changing parameters are: index (0 -> n - 1), remainingSum: 1 -> target
+        for (let index = n - 1; index >= 0; index--) {
+            for (let remainingSum = target; remainingSum > 0; remainingSum--) {
+                const include = remainingSum >= arr[index] ? dp[index + 1][remainingSum - arr[index]] : false
+                const exclude = dp[index + 1][remainingSum]
+                dp[index][remainingSum] = include || exclude
+            }
+        }
+        return dp[0][target]
+    }
+}
