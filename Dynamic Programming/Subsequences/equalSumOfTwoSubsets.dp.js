@@ -76,3 +76,27 @@ class Solution {
         return dp[0][target]
     }
 }
+
+
+// space optimized
+class Solution {
+    equalPartition(n, arr) {
+        const sum = arr.reduce((prev, curr) => prev + curr, 0)
+        if (sum % 2 !== 0) return false
+        const target = sum / 2
+        let dp = Array(target + 1).fill(false)
+        dp[0] = true
+        for (let index = n - 1; index >= 0; index--) {
+            const curr = Array(target + 1).fill(false)
+            curr[0] = true
+            for (let rem = target; rem > 0; rem--) {
+                const include = rem >= arr[index] ? dp[rem - arr[index]] : false
+                const exclude = dp[rem]
+                curr[rem] = include || exclude
+            }
+            dp = curr
+        }
+        return dp[target]
+    }
+}
+
