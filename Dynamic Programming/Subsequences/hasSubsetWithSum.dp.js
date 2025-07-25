@@ -66,3 +66,26 @@ class Solution {
         return dp[0][target]
     }
 }
+
+// space optimized solution
+class Solution {
+    isSubsetSum(arr, target) {
+        const n = arr.length
+        // space optimized Solution
+        let prev = Array(target + 1).fill(false)
+        prev[0] = true
+
+        // changing parameters are: index (0 -> n - 1), target: 1 -> target
+        for (let index = n - 1; index >= 0; index--) {
+            const curr = new Array(target + 1).fill(false)
+            curr[0] = true
+            for (let tar = target; tar > 0; tar--) {
+                const include = tar >= arr[index] ? prev[tar - arr[index]] : false
+                const exclude = prev[tar]
+                curr[tar] = include || exclude
+            }
+            prev = curr
+        }
+        return prev[target]
+    }
+}
