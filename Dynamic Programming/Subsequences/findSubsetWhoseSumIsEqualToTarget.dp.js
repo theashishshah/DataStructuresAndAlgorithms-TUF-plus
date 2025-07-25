@@ -30,3 +30,23 @@ class Solution {
         return this.findSubsetHelper(0, target, nums, n, dp)
     }
 }
+
+class Solution {
+
+    isSubsetSum(nums, target) {
+        const n = nums.length
+        const dp = Array(n + 1).fill().map(() => Array(target + 1).fill(false))
+        for (let i = 0; i <= n; i++) {
+            dp[i][0] = true
+        }
+
+        for (let i = n - 1; i >= 0; i--) {
+            for (let tar = target; tar >= 0; tar--) {
+                const take = tar >= nums[i] ? dp[i + 1][tar - nums[i]] : false
+                const notTake = dp[i + 1][tar]
+                dp[i][tar] = take || notTake
+            }
+        }
+        return dp[0][target]
+    }
+}
