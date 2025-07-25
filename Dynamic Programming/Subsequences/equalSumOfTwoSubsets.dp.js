@@ -51,3 +51,28 @@ class Solution {
     }
 }
 
+// using tabulation
+/**
+ * @param {number[]} arr
+ * @returns {boolean}
+ */
+
+class Solution {
+    equalPartition(arr) {
+        const n = arr.length
+        const sum = arr.reduce((prev, curr) => prev + curr, 0)
+        if (sum % 2 !== 0) return false
+        const target = sum / 2
+        const dp = Array(n + 1).fill().map(() => Array(target + 1).fill(false))
+
+        for (let index = 0; index <= n; index++) dp[index][0] = true
+        for (let index = n - 1; index >= 0; index--) {
+            for (let rem = target; rem > 0; rem--) {
+                const include = rem >= arr[index] ? dp[index + 1][rem - arr[index]] : false
+                const exclude = dp[index + 1][rem]
+                dp[index][rem] = include || exclude
+            }
+        }
+        return dp[0][target]
+    }
+}
