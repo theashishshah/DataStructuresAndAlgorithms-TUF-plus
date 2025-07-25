@@ -66,3 +66,33 @@ class Solution {
         return min
     }
 }
+
+
+// completed using tabulation
+class Solution {
+    minDifference(arr, n) {
+        const sum = arr.reduce((pre, curr) => pre + curr, 0)
+        const target = Math.floor(sum / 2)
+        const dp = Array(n + 1).fill().map(() => Array(target + 1).fill(false))
+        for (let i = 0; i <= n; i++) dp[i][0] = true
+
+        for (let index = n - 1; index >= 0; index--) {
+            for (let rem = target; rem > 0; rem--) {
+                const include = rem >= arr[index] ? dp[index + 1][rem - arr[index]] : false
+                const exclude = dp[index + 1][rem]
+                dp[index][rem] = include || exclude
+            }
+        }
+
+        let min = Infinity
+        for (let i = target; i >= 0; i--) {
+            if (dp[0][i]) {
+                // calculate s2 first because s1 is 'i'
+                const s2 = sum - i
+                min = Math.min(min, Math.abs(i - s2))
+                break;
+            }
+        }
+        return min
+    }
+}
