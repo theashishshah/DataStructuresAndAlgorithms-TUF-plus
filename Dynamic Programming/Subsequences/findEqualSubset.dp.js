@@ -44,3 +44,29 @@ class Solution {
         return this.findEqualSubset(0, target, nums, n, dp)
     }
 }
+
+
+// using tabulation
+class Solution {
+    equalPartition(n, nums) {
+        let target = 0
+        for (let i = 0; i < n; i++) {
+            target += nums[i]
+        }
+        if (target % 2 !== 0) return false
+        target = target / 2
+        const dp = new Array(n + 1).fill().map(() => Array(target + 1).fill(false))
+        for (let i = 0; i <= n; i++) {
+            dp[i][0] = true
+        }
+
+        for (let index = n - 1; index >= 0; index--) {
+            for (let tar = target; tar > 0; tar--) {
+                const take = tar >= nums[index] ? dp[index + 1][tar - nums[index]] : false
+                const notTake = dp[index + 1][tar]
+                dp[index][tar] = take || notTake
+            }
+        }
+        return dp[0][target]
+    }
+}
