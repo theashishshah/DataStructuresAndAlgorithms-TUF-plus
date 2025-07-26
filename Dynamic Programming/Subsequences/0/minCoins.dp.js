@@ -53,3 +53,28 @@ class Solution {
         else return ans
     }
 }
+
+// using tabulation
+class Solution {
+    MinimumCoins(coins, amount) {
+        const n = coins.length
+        const dp = Array(n).fill().map(() => Array(amount + 1).fill(1e9 + 7))
+        for (let i = 0; i <= amount; i++) {
+            if (i % coins[n - 1] === 0) dp[n - 1][i] = i / coins[n - 1]
+        }
+
+        for (let i = n - 2; i >= 0; i--) {
+            for (let money = 0; money <= amount; money++) {
+                let take = 1e9 + 7
+                if (money >= coins[i]) {
+                    take = 1 + dp[i][money - coins[i]]
+                }
+                let notTake = dp[i + 1][money]
+                dp[i][money] = Math.min(take, notTake)
+            }
+        }
+        const ans = dp[0][amount]
+        if (ans >= 1e9 + 7) return -1
+        else return ans
+    }
+}
