@@ -1,3 +1,9 @@
+function sortColors() {
+    // brute force would be apply any sorting algorithm
+    // TC: nlog(n)
+    // SC: depends upon which one you're taking into consideration
+}
+
 var sortColors = function (nums) {
     // TC: O(n) + O(len(0) + len(1) + len(2))
     // SC: O(n)
@@ -16,3 +22,4 @@ var sortColors = function (nums) {
     for (let i = 0; i < twos.length; i++) nums.push(2)
     return nums
 };
+
