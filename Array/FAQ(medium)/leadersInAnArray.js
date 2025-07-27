@@ -1,5 +1,6 @@
 class Solution {
     leaders(nums) {
+        // tc: O(n^2)
         const n = nums.length
         if (n === 1) return [nums[0]]
         const ans = []
@@ -14,6 +15,24 @@ class Solution {
             if (!flag) ans.push(nums[i])
         }
         ans.push(nums[n - 1])
+        return ans
+    }
+}
+class Solution {
+    leaders(nums) {
+        // tc: O(n)
+        const n = nums.length
+        if (n === 1) return [nums[0]]
+        const ans = []
+        ans.push(nums[n - 1])
+        let biggest = nums[n - 1]
+        for (let index = n - 2; index >= 0; index--){
+            if (nums[index] > biggest) {
+                biggest = nums[index]
+                ans.push(biggest)
+            }
+        }
+        ans.reverse()
         return ans
     }
 }
