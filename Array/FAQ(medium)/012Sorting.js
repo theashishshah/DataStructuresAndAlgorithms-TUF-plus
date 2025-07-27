@@ -23,3 +23,22 @@ var sortColors = function (nums) {
     return nums
 };
 
+var sortColors = function (nums) {
+    // We can still optimize space
+    // TC: O(n)
+    // SC: O(1)
+    const n = nums.length
+    let zero = 0
+    let one = 0
+    let two = 0
+    for (let i = 0; i < n; i++) {
+        if (nums[i] === 0) zero++
+        else if (nums[i] === 1) one++
+        else two++
+    }
+    nums.length = 0
+    for (let i = 0; i < zero; i++) nums.push(0)
+    for (let i = 0; i < one; i++) nums.push(1)
+    for (let i = 0; i < two; i++) nums.push(2)
+    return nums
+};
