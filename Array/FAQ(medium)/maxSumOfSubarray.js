@@ -35,3 +35,20 @@ class Solution {
         return max
     }
 }
+
+// Optimal solution using kadan's algorithm
+class Solution {
+    maxSubArray(nums) {
+        // TC: O(n)
+        // SC: O(1)
+        const n = nums.length
+        let max = -Infinity
+        let sum = 0
+        for (let i = 0; i < n; i++) {
+            sum += nums[i]
+            if (sum > max) max = sum
+            if (sum < 0) sum = 0
+        }
+        return max
+    }
+}
