@@ -42,3 +42,26 @@ var sortColors = function (nums) {
     for (let i = 0; i < two; i++) nums.push(2)
     return nums
 };
+
+// use of optimal solution which is "Dutch-national-flag algorithm"
+class Solution {
+    // Function to sort an array of 0s, 1s, and 2s
+    sort012(nums) {
+        // your code here
+        let low = 0
+        let mid = 0
+        let high = nums.length - 1
+        while (mid <= high) {
+            if (nums[mid] === 0) {
+                [nums[low], nums[mid]] = [nums[mid], nums[low]]
+                low++
+                mid++
+            } else if (nums[mid] === 1) mid++
+            else {
+                // swap with high but don't do anything to mid, high--
+                [nums[mid], nums[high]] = [nums[high], nums[mid]]
+                high--
+            }
+        }
+    }
+}
