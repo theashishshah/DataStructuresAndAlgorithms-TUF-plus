@@ -36,3 +36,13 @@ class Solution {
         return -1;
     }
 }
+
+
+class Solution {
+    majorityElement(nums) {
+        const n = nums.length
+        nums.sort((a, b) => a - b)
+        let i = Math.floor(n / 2)
+        return nums[i]
+    }
+}
