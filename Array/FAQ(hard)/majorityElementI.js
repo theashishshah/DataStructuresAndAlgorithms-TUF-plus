@@ -19,3 +19,20 @@ class Solution {
         return nums[index]
     }
 }
+
+class Solution {
+    majorityElement(nums) {
+        // TC: O(n)
+        // SC: O(n*2)
+        const n = nums.length;
+        const majorityThresold = Math.floor(n / 2);
+        const hash = new Map();
+        for (let i = 0; i < n; i++) {
+            const num = nums[i];
+            const count = (hash.get(num) || 0) + 1;
+            hash.set(num, count);
+            if (count > majorityThresold) return num;
+        }
+        return -1;
+    }
+}
