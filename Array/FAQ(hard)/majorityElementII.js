@@ -15,3 +15,22 @@ class Solution {
         return Array.from(set)
     }
 }
+
+class Solution {
+    majorityElementTwo(nums) {
+        const n = nums.length
+        const ans = []
+        for (let i = 0; i < n; i++) {
+            const curr = nums[i]
+            if (ans.length === 0 || ans[0] !== curr) {
+                let count = 0
+                for (let j = 0; j < n; j++) {
+                    if (nums[j] === curr) count++
+                }
+                if (count > Math.floor(n / 3)) ans.push(curr)
+            }
+            if (ans.length === 2) break
+        }
+        return ans
+    }
+}
