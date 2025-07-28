@@ -34,3 +34,26 @@ class Solution {
         return ans
     }
 }
+
+// slightly better using hashmap
+class Solution {
+    majorityElementTwo(nums) {
+        // TC: O(n)
+        // SC: O(len(ans)) + O(n)
+        const n = nums.length
+        const hash = new Map()
+        const ans = []
+        for (const ele of nums) {
+            hash.set(ele, (hash.get(ele) || 0) + 1)
+            let count = hash.get(ele)
+            if (count > Math.floor(n / 3)) {
+                if (ans.length === 0 || ans[0] !== ele) {
+                    ans.push(ele)
+                }
+            }
+
+            if (ans.length === 2) break
+        }
+        return ans
+    }
+}
