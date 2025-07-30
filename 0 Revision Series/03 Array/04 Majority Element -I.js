@@ -22,6 +22,30 @@ class Solution {
 class Solution {
     majorityElement(nums) {
         const n = nums.length
+        let max = 0
+        let element = null
+        const hash = new Set()
+        for (let i = 0; i < n; i++) {
+            const curr = nums[i]
+            if (hash.has(curr)) continue
+            let localMax = 0
+            for (let j = 0; j < n; j++) {
+                if (nums[j] === curr) localMax++
+            }
+            hash.add(curr)
+            if (localMax > max) {
+                max = localMax
+                element = curr
+            }
+        }
+
+        return element
+    }
+}
+
+class Solution {
+    majorityElement(nums) {
+        const n = nums.length
         nums.sort((a, b) => a - b)
         const index = Math.floor(n / 2)
         return nums[index]
