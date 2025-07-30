@@ -1,3 +1,19 @@
+### What is heap Data Structure and why, where do we use it?
+A heap is a special tree-based data structure that satisfies the heap property. It is commonly used to efficiently solve problems involving priority and to implement algorithms like sorting and finding the smallest or largest elements.
+
+#### Leaf & Non-Leaf nodes
+```js
+const nonLeafNodes = 0 to Math.floor(n/2) - 1
+const leafNodes = Math.floor(n/2) to n - 1
+
+const parentNode = Math.floor(child - 1 /2) or 
+const parentNode = Math.ceil(child/2) - 1
+```
+
+
+
+
+
 ####  Full Binary Tree?
 -> Every node either has 0 or 2 children.
 
