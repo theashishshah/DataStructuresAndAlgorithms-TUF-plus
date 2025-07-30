@@ -18,3 +18,12 @@ class Solution {
         return element
     }
 }
+
+class Solution {
+    majorityElement(nums) {
+        const n = nums.length
+        nums.sort((a, b) => a - b)
+        const index = Math.floor(n / 2)
+        return nums[index]
+    }
+}
