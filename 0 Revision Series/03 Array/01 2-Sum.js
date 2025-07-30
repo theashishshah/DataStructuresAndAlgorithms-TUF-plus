@@ -9,3 +9,15 @@ class Solution {
 
     }
 }
+
+class Solution {
+    twoSum(nums, target) {
+        const n = nums.length
+        const hash = new Map()
+        for (let i = 0; i < n; i++) {
+            const next = target - nums[i]
+            if (hash.has(next)) return [hash.get(next), i]
+            hash.set(nums[i], i)
+        }
+    }
+}
