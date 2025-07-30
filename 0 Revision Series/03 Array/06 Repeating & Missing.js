@@ -20,3 +20,26 @@ class Solution {
         return [twice, missing]
     }
 }
+
+
+class Solution {
+    findMissingRepeatingNumbers(nums) {
+        // TC: O(n)
+        // SC: O(n)
+        const n = nums.length
+        const hash = new Map()
+        for (let i = 0; i < n; i++) {
+            const curr = nums[i]
+            hash.set(curr, (hash.get(curr) || 0) + 1)
+        }
+        let twice = null
+        let missing = null
+        for (let i = 1; i <= n; i++) {
+            if (hash.has(i)) {
+                let count = hash.get(i)
+                if (count > 1) twice = i
+            } else missing = i
+        }
+        return [twice, missing]
+    }
+}
