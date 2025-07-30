@@ -36,3 +36,30 @@ class Solution {
         return Array.from(set).map(str => str.split(",").map(num => Number(num)))
     }
 }
+
+
+class Solution {
+    threeSum(nums) {
+        const n = nums.length
+        const ans = []
+        nums.sort((a, b) => a - b)
+        for (let i = 0; i < n; i++) {
+            if (i > 0 && nums[i] === nums[i - 1]) continue
+            let left = i + 1
+            let right = n - 1
+            while (left < right) { // I'll not take left <= right, cuz it will lead to duplicates
+                const currSum = nums[i] + nums[left] + nums[right]
+                if (currSum === 0) {
+                    ans.push([nums[i], nums[left], nums[right]])
+                    left++
+                    right--
+                    // avoid the duplicates
+                    while (left < right && nums[left] === nums[left - 1]) left++
+                    while (left < right && nums[right] === nums[right + 1]) right--
+                } else if (currSum < 0) left++
+                else right--
+            }
+        }
+        return ans
+    }
+}
