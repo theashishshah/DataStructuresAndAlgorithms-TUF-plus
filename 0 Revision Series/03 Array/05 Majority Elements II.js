@@ -35,3 +35,22 @@ class Solution {
         return Array.from(ans)
     }
 }
+
+
+class Solution {
+    majorityElementTwo(nums) {
+        // TC: O(n)
+        // SC: O(n) for hash table
+        const n = nums.length
+        const hash = new Map()
+        const ans = new Set()
+        const majority = Math.floor(n / 3)
+        for (let i = 0; i < n; i++) {
+            const curr = nums[i]
+            hash.set(curr, (hash.get(curr) || 0) + 1)
+            let count = hash.get(curr)
+            if (count > majority) ans.add(curr)
+        }
+        return Array.from(ans)
+    }
+}
