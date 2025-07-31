@@ -64,3 +64,31 @@ class Solution {
         return [repeating, missing]
     }
 }
+
+
+class Solution {
+    findMissingRepeatingNumbers(arr) {
+        // code here
+        const n = arr.length
+        const expectedSum = (n * (n + 1) / 2)
+        const expectedSqSum = (n * (n + 1) * (2 * n + 1) / 6)
+        let actualSum = 0
+        let actualSqSum = 0
+        for (const num of arr) {
+            actualSum += num
+            actualSqSum += (num * num)
+        }
+
+        // let calculate x - y and x^2 - y^2
+        const diff = actualSum - expectedSum
+        const sqDiff = actualSqSum - expectedSqSum
+
+        // I need to find x + y now: which is x^2 - y^2 = (x + y) (x - y)
+        const sum = sqDiff / diff
+
+        // now I've x + y and x - y
+        const repeating = (diff + sum) / 2
+        const missing = sum - repeating
+        return [repeating, missing]
+    }
+}
