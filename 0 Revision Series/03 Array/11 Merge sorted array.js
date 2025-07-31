@@ -21,3 +21,23 @@ class Solution {
         return nums1
     }
 }
+
+/**
+ * @param {number[]} nums1
+ * @param {number} m
+ * @param {number[]} nums2
+ * @param {number} n
+ * @return {void} Do not return anything, modify nums1 in-place instead.
+ */
+var merge = function (nums1, m, nums2, n) {
+    let left = m - 1
+    let right = n - 1
+    let actual = m + n - 1
+    while (left >= 0 && right >= 0) {
+        if (nums1[left] < nums2[right]) {
+            nums1[actual--] = nums2[right--]
+        } else nums1[actual--] = nums1[left--]
+    }
+    while (right >= 0) nums1[actual--] = nums2[right--]
+    return nums1
+};
