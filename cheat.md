@@ -19,3 +19,8 @@ map.forEach((value, key, map) => {
 const str = "+3-4+2+3-1"
 console.log(eval(str)) // will give output
 ```
+
+```js
+let str = "ashish"
+let len = str.length // to get the length of the string
+```
