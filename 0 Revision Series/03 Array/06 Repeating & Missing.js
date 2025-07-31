@@ -43,3 +43,24 @@ class Solution {
         return [twice, missing]
     }
 }
+
+class Solution {
+    findMissingRepeatingNumbers(nums) {
+        const n = nums.length
+        const s1 = (n * (n + 1)) / 2
+        const s2 = (n * (n + 1) * (2 * n + 1) ) / 6
+        let sum1 = 0
+        let sum2 = 0
+        for(let i = 0; i < n; i++){
+            sum1 += nums[i]
+            sum2 += (nums[i] * nums[i])
+        }
+
+        let xMy = sum1 - s1
+        let xMy2 = sum2 - s2
+        let xPy = xMy2 / xMy
+        let repeating = (xMy + xPy) / 2
+        let missing = xPy - repeating
+        return [repeating, missing]
+    }
+}
