@@ -16,17 +16,17 @@ class Solution {
     }
 }
 
-class Solution {
-    sumSubarrayMins(nums) {
-        const n = nums.length
-        let sum = 0
-        for (let i = 0; i < n; i++) {
-            const curr = []
-            for (let j = i; j < n; j++) {
-                curr.push(nums[j])
-                sum += Math.min(...curr)
-            }
+
+var sumSubarrayMins = function (nums) {
+    const n = nums.length
+    let sum = 0
+    for (let i = 0; i < n; i++) {
+        const curr = []
+        for (let j = i; j < n; j++) {
+            curr.push(nums[j])
+            sum += Math.min(...curr)
+            sum = sum % (1e9 + 7)
         }
-        return sum
     }
-}
+    return sum % (1e9 + 7)
+};
