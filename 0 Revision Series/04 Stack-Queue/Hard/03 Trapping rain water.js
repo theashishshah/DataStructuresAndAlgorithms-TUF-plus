@@ -29,3 +29,27 @@ var trap = function (height) {
     }
     return totalWater
 };
+
+
+// a sligthly better way: 
+function suffix(nums) {
+    const n = nums.length
+    const ans = new Array(n).fill(0)
+    ans[n - 1] = nums[n - 1]
+    for (let i = n - 2; i >= 0; i--) {
+        ans[i] = Math.max(nums[i], ans[i + 1])
+    }
+    return ans
+}
+var trap = function (height) {
+    const n = height.length
+    let leftMax = height[0]
+    const rightMax = suffix(height)
+    let totalWater = 0
+    for (let i = 0; i < n; i++) {
+        leftMax = Math.max(leftMax, height[i])
+        totalWater += (Math.min(leftMax, rightMax[i]) - height[i])
+
+    }
+    return totalWater
+};
