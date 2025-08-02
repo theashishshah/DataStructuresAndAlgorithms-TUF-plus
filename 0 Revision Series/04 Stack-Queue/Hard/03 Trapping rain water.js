@@ -53,3 +53,25 @@ var trap = function (height) {
     }
     return totalWater
 };
+
+var trap = function (height) {
+    const n = height.length
+    let total = 0
+    let leftMax = 0, rightMax = 0
+    let left = 0
+    let right = n - 1
+    while (left < right) {
+        if (height[left] <= height[right]) {
+            if (leftMax > height[left]) {
+                total += (leftMax - height[left])
+            } else leftMax = height[left]
+            left++
+        } else {
+            if (rightMax > height[right]) {
+                total += (rightMax - height[right])
+            } else rightMax = height[right]
+            right--
+        }
+    }
+    return total
+};
