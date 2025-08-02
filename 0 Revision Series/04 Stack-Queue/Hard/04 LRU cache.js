@@ -70,3 +70,74 @@ LRUCache.prototype.put = function (key, value) {
     this.insertNode(newNode)
     return
 };
+
+
+
+class Node {
+    constructor(key = -1, value = -1) {
+        this.key = key
+        this.value = value
+        this.next = null
+        this.prev = null
+    }
+}
+var LRUCache = function (capacity) {
+    this.capacity = capacity
+    this.head = new Node()
+    this.tail = new Node()
+    this.map = new Map()
+
+    this.head.next = this.tail
+    this.tail.prev = this.head
+};
+
+LRUCache.prototype.delete = function (node) {
+    const nextNode = node.next
+    const prevNode = node.prev
+    prevNode.next = nextNode
+    nextNode.prev = prevNode
+
+};
+
+LRUCache.prototype.insert = function (node) {
+    const nextNode = this.head.next
+    nextNode.prev = node
+    node.next = nextNode
+
+    this.head.next = node
+    node.prev = this.head
+
+    return
+};
+LRUCache.prototype.get = function (key) {
+    // First check if you have or not?
+    if (!this.map.has(key)) return -1
+
+    const currentNode = this.map.get(key)
+    this.delete(currentNode)
+    this.insert(currentNode)
+    return currentNode.value
+};
+
+LRUCache.prototype.put = function (key, value) {
+    // If key already exist then, update the value and make LRU
+    if (this.map.has(key)) {
+        const currentNode = this.map.get(key)
+        currentNode.value = value
+        this.delete(currentNode)
+        this.insert(currentNode)
+        return
+    }
+
+    if (this.capacity === this.map.size) {
+        // delete the lru
+        const lruNode = this.tail.prev
+        this.map.delete(lruNode.key)
+        this.delete(lruNode)
+    }
+
+    const newNode = new Node(key, value)
+    this.map.set(key, newNode)
+    this.insert(newNode)
+    return
+};
