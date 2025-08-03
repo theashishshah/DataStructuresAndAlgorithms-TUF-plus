@@ -16,3 +16,35 @@ class Solution {
         return ans
     }
 }
+
+/**
+ * Definition for a binary tree node.
+ * class TreeNode {
+ *      constructor(val = 0, left = null, right = null){
+ *          this.data = val;
+ *          this.left = null;
+ *          this.right = null;
+ *      }
+ * }
+ **/
+
+class Solution {
+    inorder(root) {
+        if (!root) return []
+        const result = []
+        const stack = []
+        let current = root
+        while (true) {
+            if (current) {
+                stack.push(current)
+                current = current.left
+            } else {
+                if (!stack.length) break
+                current = stack.pop()
+                result.push(current.data)
+                current = current.right
+            }
+        }
+        return result
+    }
+}
