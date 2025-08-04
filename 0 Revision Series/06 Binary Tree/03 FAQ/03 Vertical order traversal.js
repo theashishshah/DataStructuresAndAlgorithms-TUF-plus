@@ -78,3 +78,54 @@ class Solution {
         return ans
     }
 }
+
+
+// Leetcode version of vertical order traversal
+var verticalTraversal = function (root) {
+    if (!root) return []
+    const queue = []
+    const map = new Map()
+    queue.push({
+        node: root,
+        col: 0,
+        level: 0
+    })
+
+    while (queue.length) {
+        const { node, col, level } = queue.shift()
+        if (!map.has(col)) map.set(col, new Map())
+        if (!map.get(col).has(level)) map.get(col).set(level, [])
+
+        map.get(col).get(level).push(node.val)
+
+        if (node.left) {
+            queue.push({
+                node: node.left,
+                col: col - 1,
+                level: level + 1
+            })
+        }
+
+        if (node.right) {
+            queue.push({
+                node: node.right,
+                col: col + 1,
+                level: level + 1
+            })
+        }
+    }
+
+    const ans = []
+    const sortedCols = [...map.keys()].sort((a, b) => a - b)
+    for (const col of sortedCols) {
+        const levMap = map.get(col)
+        const sortedLevels = [...levMap.keys()].sort((a, b) => a - b)
+        const currentCol = []
+        for (const row of sortedLevels) {
+            const values = levMap.get(row).sort((a, b) => a - b)
+            currentCol.push(...values)
+        }
+        ans.push([...currentCol])
+    }
+    return ans
+};
