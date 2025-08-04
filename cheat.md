@@ -41,3 +41,61 @@ const ans = arr.slice(firstNonZero)
 console.log(ans)  // [ 5, 1, 0, 2 ]
 
 ```
+
+## Regarding map data structure
+```js
+// You're not getting a simple array — you're getting a Map Iterator.
+map.keys()     // => Map Iterator over keys
+map.values()   // => Map Iterator over values
+map.entries()  // => Map Iterator over [key, value] pairs
+
+// Now you can do these things on it
+for (const key of map.keys()) {
+    console.log(key);
+}
+const keys = [...map.keys()];
+const values = [...map.values()];
+const entries = [...map.entries()];
+
+const iter = map.keys();
+console.log(iter.next()); // { value: firstKey, done: false }
+console.log(iter.next()); // { value: secondKey, done: false }
+// Eventually: { value: undefined, done: true }
+
+for (const key of map.keys()) {
+    console.log("Over Iterator", key);
+}
+
+
+const map = new Map()
+map.set(-1, 13)
+map.set(1, 434)
+map.set(-5, "Ehlo")
+map.set(10, "papa")
+map.set(0, 35)
+
+const ans = map.keys()
+console.log(ans)
+// console.log("But you can also spread it into array", [...ans]) 
+let next = ans.next();
+
+while (!next.done) {
+    console.log("Keys", next.value);
+    console.log("Status: ", next.done)
+    next = ans.next(); // advance only once
+}
+/**
+ * [Map Iterator] { -1, 1, -5, 10, 0 }
+Keys -1
+Status:  false
+Keys 1
+Status:  false
+Keys -5
+Status:  false
+Keys 10
+Status:  false
+Keys 0
+Status:  false
+*/
+
+```
