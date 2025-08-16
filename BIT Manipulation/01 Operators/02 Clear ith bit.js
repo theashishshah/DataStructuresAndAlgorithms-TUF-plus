@@ -33,3 +33,21 @@ function countNumberOfSetBits(num) {
     if (num === 1) count++
     return count
 }
+function countNumberOfSetBitss(num) {
+    if (num === 0) return 0
+    if(num === 1) return 1
+    let count = 0
+    // while (num > 1) {
+    //     count += num & 1
+    //     num = Math.floor(num >> 1)
+    // }
+    // if (num === 1) count++
+    // return count
+
+    while (num > 0) {
+        num = num & (num - 1)
+        count++
+    }
+    return count
+}
+console.log(countNumberOfSetBitss(13))
