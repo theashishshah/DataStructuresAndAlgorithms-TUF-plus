@@ -16,3 +16,7 @@ class Solution {
         return n
     }
 }
+
+function removeLastSetBit(num) {
+    return num & (n - 1)
+}
