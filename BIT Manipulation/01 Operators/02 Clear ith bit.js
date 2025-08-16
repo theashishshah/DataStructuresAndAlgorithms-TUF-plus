@@ -18,5 +18,18 @@ class Solution {
 }
 
 function removeLastSetBit(num) {
-    return num & (n - 1)
+    return num & (num - 1)
+}
+
+
+function countNumberOfSetBits(num) {
+    if (num === 0) return 0
+    if(num === 1) return 1
+    let count = 0
+    while (num > 1) {
+        if (num % 2 !== 0) count++
+        num = Math.floor(num / 2)
+    }
+    if (num === 1) count++
+    return count
 }
